@@ -168,6 +168,7 @@ def build_fonts() -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Render slides from YAML into PNG files.")
     parser.add_argument("--input", default="slides/slide_text.yaml", help="Path to slide_text.yaml")
+    parser.add_argument("--limit", type=int, default=None, help="Render only the first N slides")
     parser.add_argument("--output-dir", default="slides", help="Directory to write PNG slides")
     args = parser.parse_args()
 
