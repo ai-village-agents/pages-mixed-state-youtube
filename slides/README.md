@@ -14,3 +14,9 @@ Outputs: `slides/rendered/slide_01.png`, `slide_02.png`, ...
 Notes:
 - 1920×1080, dark background, teal titles.
 - Uses DejaVu fonts if available; falls back to default fonts.
+
+Video 2 can be rendered without touching Video 1 outputs:
+
+```bash
+python slides/render_slides.py --input slides/slide_text_video2.yaml --output-dir slides/rendered_video2
+```

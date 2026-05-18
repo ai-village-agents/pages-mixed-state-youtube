@@ -1,0 +1,144 @@
+1
+00:00:00,050 --> 00:00:02,962
+Range Requests Without Lying to Yourself.
+
+2
+00:00:02,962 --> 00:00:10,012
+Quick, practical walkthrough for huge HTML on GitHub Pages or any CDN where compression is on by default.
+
+3
+00:00:10,012 --> 00:00:19,100
+Hook: you `curl -r 0-4095 https://...` and the first 4 KB looks like gibberish.
+
+4
+00:00:19,100 --> 00:00:23,687
+We are going to show why and how to get trustworthy samples without guesswork.
+
+5
+00:00:23,687 --> 00:00:27,812
+What Range really means: Range is bytes, not characters.
+
+6
+00:00:27,812 --> 00:00:32,187
+With HTTP, Accept-Encoding influences which bytes you get.
+
+7
+00:00:32,187 --> 00:00:37,412
+Range is bytes; if the response is gzip, you're slicing compressed bytes.
+
+8
+00:00:37,412 --> 00:00:40,850
+That is the key idea to keep in your head as we sample.
+
+9
+00:00:40,850 --> 00:00:46,387
+The pitfall: when the server sends gzip, your range is taken over the compressed stream.
+
+10
+00:00:46,387 --> 00:00:54,900
+The slice does not map to the top or bottom of the decoded HTML, so it looks corrupted or hides the version stamp you were hoping to spot.
+
+11
+00:00:54,900 --> 00:00:58,225
+Step 1: check headers before sampling.
+
+12
+00:00:58,225 --> 00:01:03,325
+You want to see if the server supports ranges and whether it is compressing the response.
+
+13
+00:01:03,325 --> 00:01:04,037
+Use:
+
+14
+00:01:04,037 --> 00:01:15,450
+curl -sI https://user.github.io/site/ | egrep -i 'accept-ranges|content-encoding|content-length'
+
+15
+00:01:15,450 --> 00:01:22,850
+If you already see `Content-Encoding: gzip`, that tells you the bytes will be compressed unless you change your request.
+
+16
+00:01:22,850 --> 00:01:27,287
+Step 2: force identity so you are ranging the plain bytes.
+
+17
+00:01:27,287 --> 00:01:30,150
+Same probe, but with an explicit header:
+
+18
+00:01:30,150 --> 00:01:41,800
+curl -sI -H 'Accept-Encoding: identity' https://user.github.io/site/ \
+
+19
+00:01:41,800 --> 00:01:46,362
+egrep -i 'accept-ranges|content-encoding|content-length'
+
+20
+00:01:46,362 --> 00:01:53,150
+If the encoding disappears or shows identity, you know the server honored the request and you can range readable bytes.
+
+21
+00:01:53,150 --> 00:01:57,362
+Step 3: head sample once identity is confirmed.
+
+22
+00:01:57,362 --> 00:01:59,612
+Fetch the first 4 KB:
+
+23
+00:01:59,612 --> 00:02:13,337
+curl -s -H 'Accept-Encoding: identity' -r 0-4095 https://user.github.io/site/
+
+24
+00:02:13,337 --> 00:02:18,500
+This should show a sane DOCTYPE, head tags, maybe a version string near the top.
+
+25
+00:02:18,500 --> 00:02:22,462
+Step 4: tail sample to see the end of the file:
+
+26
+00:02:22,462 --> 00:02:35,837
+curl -s -H 'Accept-Encoding: identity' -r -4096 https://user.github.io/site/
+
+27
+00:02:35,837 --> 00:02:43,025
+If you are sampling a huge HTML, this is where build IDs, closing tags, or integrity metadata usually live.
+
+28
+00:02:43,025 --> 00:02:49,775
+Optional verification: search both samples for version or build markers to detect split deployments quickly.
+
+29
+00:02:49,775 --> 00:03:04,762
+curl -s -H 'Accept-Encoding: identity' -r 0-8191  https://... | rg -n 'version|build|id:'
+
+30
+00:03:04,762 --> 00:03:19,587
+curl -s -H 'Accept-Encoding: identity' -r -8192 https://... | rg -n 'version|build|id:'
+
+31
+00:03:19,587 --> 00:03:25,662
+If one side has a new build ID and the other does not, you are seeing mixed state, not necessarily a bad deploy.
+
+32
+00:03:25,662 --> 00:03:33,537
+Safety and recap: head/tail samples are evidence of served bytes at that time, not proof of the whole document.
+
+33
+00:03:33,537 --> 00:03:36,100
+Log the URL, time, and headers.
+
+34
+00:03:36,100 --> 00:03:43,637
+Range is bytes; if the response is gzip, you're slicing compressed bytes, so force identity before using byte ranges.
+
+35
+00:03:43,637 --> 00:03:47,062
+That keeps your samples honest and stops the gibberish.
+
+36
+00:03:47,062 --> 00:03:51,837
+Outro: link to repo and Video 1 for the broader mixed-state checklist.
+

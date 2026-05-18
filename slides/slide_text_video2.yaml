@@ -1,0 +1,49 @@
+- title: Range Requests Without Lying to Yourself
+  bullets:
+    - Huge HTML? Sample bytes without fooling yourself
+    - Works for GitHub Pages and any gzipped CDN
+- title: "Hook — \"I downloaded 4 KB... why is it gibberish?\""
+  bullets:
+    - Range output looks scrambled because the bytes are compressed
+    - Let's get readable slices on purpose
+- title: Range means bytes
+  bullets:
+    - "Range is bytes; Accept-Encoding decides which bytes you get"
+    - If the server gzips, your slice is over compressed data
+    - "Key idea: Range is bytes; if the response is gzip, you're slicing compressed bytes"
+- title: The pitfall
+  bullets:
+    - Ranging the compressed stream does not map to decoded HTML
+    - Garbled text, missing version stamps, false alarms
+- title: Step 1 — check headers
+  bullets:
+    - Look for Accept-Ranges and Content-Encoding first
+  code: |
+    curl -sI https://user.github.io/site/ | egrep -i 'accept-ranges|content-encoding|content-length'
+- title: Step 2 — force identity
+  bullets:
+    - Ask for plain bytes before slicing
+  code: |
+    curl -sI -H 'Accept-Encoding: identity' https://user.github.io/site/ \
+      | egrep -i 'accept-ranges|content-encoding|content-length'
+- title: Step 3 — head sample
+  bullets:
+    - Fetch the first 4 KB once encoding is identity
+  code: |
+    curl -s -H 'Accept-Encoding: identity' -r 0-4095 https://user.github.io/site/
+- title: Step 4 — tail sample
+  bullets:
+    - Pull the last 4 KB to catch footers or build IDs
+  code: |
+    curl -s -H 'Accept-Encoding: identity' -r -4096 https://user.github.io/site/
+- title: Optional — grep markers
+  bullets:
+    - Search both slices for version/build hints
+  code: |
+    curl -s -H 'Accept-Encoding: identity' -r 0-8191  https://... | rg -n 'version|build|id:'
+    curl -s -H 'Accept-Encoding: identity' -r -8192 https://... | rg -n 'version|build|id:'
+- title: Safety + recap
+  bullets:
+    - Head/tail samples show served bytes at that moment; note time + URL
+    - "Range is bytes; if the response is gzip, you're slicing compressed bytes"
+    - Force identity to keep your samples honest, then document what you saw

@@ -1,20 +1,23 @@
-# Pages Mixed-State (YouTube video)
+# Pages Mixed-State (YouTube videos)
 
-Assets for a single human-facing explainer video:
-
-**“GitHub Pages isn’t instantly consistent: mixed-state deployments + how to verify huge HTML safely (HTTP Range + disable gzip)”**
-
-Planned length: ~8–12 minutes.
+Assets for short human-facing explainer videos about GitHub Pages mixed-state deployments and how to verify large HTML safely using HTTP Range while disabling gzip. Published on the GPT-5.2 Model YouTube channel.
 
 ## Folders
-- `script/` — narration script + on-screen text.
-- `slides/` — slide specs and generated PNGs.
-- `build/` — rendered audio/video/subtitles.
+- `script/` — narration scripts and on-screen text.
+- `slides/` — slide specs and rendered PNGs.
+- `build/` — gitignored local renders (audio/video/subtitles).
+- `artifacts/video2/` — small reproducibility + verification artifacts for Video 2 (`narration.{txt,vtt,mp3}`, `shots.txt`, `oembed.json`).
 
-## Video 1
-- `script/VIDEO1_script.md` — full narration with cues and timestamps.
-- `script/VIDEO1_shotlist.md` — shot-level coverage map.
-- `slides/slide_text.yaml` — slide titles and bullets for the deck.
+## Published videos
+
+### Video 1 — GitHub Pages “Two Versions of the Same Page” (and How to Verify It)
+- YouTube: https://youtu.be/vgzyU-gDEdI
+- Script: `script/VIDEO1_script.md`; slide YAML: `slides/slide_text.yaml`; shotlist: `script/VIDEO1_shotlist.md`.
+
+### Video 2 — Range Requests Without Lying to Yourself
+- YouTube: https://youtu.be/3fhJz8IsU-Q
+- Scripts: `script/VIDEO2_script.md`, `script/VIDEO2_narration.md`.
+- Slides: `slides/slide_text_video2.yaml`; rendered deck: `slides/rendered_video2/`.
 
 ## Rendering slides
 - Install dependencies (`pip install pillow pyyaml`).
@@ -26,11 +29,8 @@ Planned length: ~8–12 minutes.
 - Code: MIT (see `LICENSE`)
 - Content (script/slides/diagrams): CC BY 4.0 (see `CONTENT_LICENSE_CC_BY_4.0.txt`)
 
-## Published video
-- YouTube: https://youtu.be/vgzyU-gDEdI
-
 ### Encoding note (YouTube processing reliability)
-If your upload gets stuck on "Processing abandoned", re-encode to a constant frame rate (CFR) with H.264 + AAC, `yuv420p`, and `+faststart`.
+If an upload gets stuck on "Processing abandoned", re-encode to a constant frame rate (CFR) with H.264 + AAC, `yuv420p`, and `+faststart`.
 
 Example (30 fps CFR):
 ```bash
