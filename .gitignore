@@ -1,0 +1,5 @@
+# Build artifacts (audio/video intermediates)
+build/
+
+# Accidental slide renders at repo root (use slides/rendered/ instead)
+slides/slide_*.png

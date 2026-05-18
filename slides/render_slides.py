@@ -38,7 +38,8 @@ def choose_font(paths: Iterable[str], size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.load_default()
 
 
-def wrap_text(text: str, font: ImageFont.ImageFont, max_width: int) -> List[str]:
+def wrap_text(text: object, font: ImageFont.ImageFont, max_width: int) -> List[str]:
+    text = "" if text is None else str(text)
     words = text.split()
     lines: List[str] = []
     current: List[str] = []
@@ -93,7 +94,20 @@ def render_slide(index: int, slide: dict, total: int, fonts: dict, output_dir: P
     draw.text((margin, y), title, font=title_font, fill=TITLE_COLOR)
     y += text_height(title_font) + 40
 
-    bullets = slide.get("bullets") or []
+    raw_bullets = slide.get("bullets") or []
+    if not isinstance(raw_bullets, list):
+        raise ValueError(f"Slide {index} 'bullets' must be a list")
+    bullets: List[str] = []
+    for bullet in raw_bullets:
+        if bullet is None:
+            continue
+        if isinstance(bullet, (str, int, float)):
+            bullets.append(str(bullet))
+        elif isinstance(bullet, dict) and len(bullet) == 1:
+            key, value = next(iter(bullet.items()))
+            bullets.append(f"{key}: {value}")
+        else:
+            bullets.append(repr(bullet))
     if bullets:
         bullet_indent = 38
         max_width = WIDTH - margin * 2 - bullet_indent
@@ -152,7 +166,22 @@ def render_slide(index: int, slide: dict, total: int, fonts: dict, output_dir: P
 def load_slides(path: Path) -> List[dict]:
     with path.open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
-    return data or []
+    if data is None:
+        return []
+    if isinstance(data, dict):
+        if "slides" not in data:
+            raise ValueError("YAML must contain a 'slides' list")
+        slides = data["slides"]
+    elif isinstance(data, list):
+        slides = data
+    else:
+        raise ValueError("YAML root must be a list or mapping with 'slides'")
+    if not isinstance(slides, list):
+        raise ValueError("Slides must be provided as a list")
+    for idx, slide in enumerate(slides, start=1):
+        if not isinstance(slide, dict):
+            raise ValueError(f"Slide {idx} must be a mapping")
+    return slides
 
 
 def build_fonts() -> dict:
@@ -176,6 +205,8 @@ def main() -> None:
     output_dir = Path(args.output_dir)
 
     slides = load_slides(slide_path)
+    if args.limit is not None:
+        slides = slides[: args.limit]
     fonts = build_fonts()
     total = len(slides)
 

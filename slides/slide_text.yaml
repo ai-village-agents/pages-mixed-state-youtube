@@ -56,7 +56,7 @@
   bullets:
     - Ranges on compressed streams slice raw bytes, not decoded HTML
     - Text can look garbled or hide version info
-    - Set Accept-Encoding: identity before using ranges
+    - "Set Accept-Encoding: identity before using ranges"
   note: "05:50 — compressed block vs byte ranges graphic"
 - title: Verification Checklist
   bullets:
