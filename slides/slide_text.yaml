@@ -1,35 +1,72 @@
 - title: Hook — Same URL, Different Page
   bullets:
-    - Refreshed and saw different layouts
-    - Mixed-state deployments can look like failures
-    - Both versions can be briefly true
-- title: What Causes Mixed-State on GitHub Pages
+    - Refreshed and saw different layouts in two tabs
+    - Easy to shout “deployment is broken”
+    - Mixed-state means both versions can be briefly true
+  note: "00:00 — split-screen tabs highlighting mismatch"
+- title: Mixed-State on GitHub Pages
   bullets:
-    - CDN edges update at different times
-    - HTML can point to cached CSS/JS
-    - Service workers or cache headers hold old files
-    - Large gzipped HTML with Range can look inconsistent
+    - CDN edges can serve slightly different content
+    - HTML and assets may update at different moments
+    - Temporary; settles once caches align
+  note: "00:40 — origin to CDN edges diagram"
+- title: Causes (edges + assets)
+  bullets:
+    - Edge cache propagation happens at different speeds
+    - HTML pointing to cached CSS/JS when hashes lag
+    - Cache headers can extend lifetime unexpectedly
+  note: "01:20 — keep claims narrow and temporary"
+- title: Causes (local + encoding)
+  bullets:
+    - Service worker or browser cache holding old files
+    - Large gzipped HTML with Range support can look inconsistent
+    - Both clear up once a fresh copy is pulled
 - title: Quick Sanity Checks
   bullets:
-    - Hard refresh (Ctrl/Cmd+Shift+R)
-    - Try private window
-    - Add cache-busting query ?v=now
-    - Compare raw.githubusercontent.com vs site
-- title: Inspect Headers and Content
+    - Hard refresh (Ctrl/Cmd+Shift+R), then private window
+    - Add cache-busting query like ?v=now
+    - Note the exact URL and time of your attempt
+  note: "02:20 — assume caching before malice"
+- title: Raw vs Served
   bullets:
-    - curl -I to view Age, Cache-Control, ETag
-    - Fetch top of file with Range 0-4095
-    - Fetch tail with Range -4096
-    - Use Accept-Encoding: identity for ranges
+    - Compare the site to raw.githubusercontent.com for same file
+    - If raw is new but site is old, CDN edge is behind
+    - If both are old, the repo content likely isn’t published yet
+  note: "03:10 — side-by-side served vs raw"
+- title: Inspect Headers
+  bullets:
+    - Check Age, Cache-Control, ETag on the response
+    - High Age hints you’re seeing cached content
+  code: |
+    curl -I https://user.github.io/site/
+- title: Range: avoid gzip first
+  bullets:
+    - For range requests, ask for identity encoding
+    - Avoid slicing compressed bytes mid-stream
+  code: |
+    curl -H "Accept-Encoding: identity" -I https://user.github.io/site/
+- title: Range: head + tail commands
+  bullets:
+    - Fetch first 4 KB to inspect the top of the doc
+    - Fetch last 4 KB to spot footers or version stamps
+  code: |
+    curl -H "Accept-Encoding: identity" -r 0-4095 https://user.github.io/site/
+    curl -H "Accept-Encoding: identity" -r -4096 https://user.github.io/site/
+- title: Why gzip + Range misleads
+  bullets:
+    - Ranges on compressed streams slice raw bytes, not decoded HTML
+    - Text can look garbled or hide version info
+    - Set Accept-Encoding: identity before using ranges
+  note: "05:50 — compressed block vs byte ranges graphic"
 - title: Verification Checklist
   bullets:
-    - Hard refresh then cache-bust
-    - Compare raw vs CDN
-    - Check headers for caching
-    - Use safe Range requests
-    - Re-check after a few minutes
-- title: Integrity When Reporting
+    - Hard refresh; private window; cache-bust ?v=now
+    - Compare raw vs CDN; inspect headers with curl -I
+    - Use identity + range for huge pages
+    - Re-check after 5–10 minutes for propagation
+- title: Integrity + Closing
   bullets:
-    - Say what you saw, where, and when
-    - Attribute others’ claims clearly
-    - Avoid blame; stick to evidence
+    - Say what you saw, where, and when; cite others clearly
+    - Mixed-state is usually brief; verify then report calmly
+    - Use the checklist before declaring a broken deploy
+  note: "Closing — pages-mixed-state-youtube"
