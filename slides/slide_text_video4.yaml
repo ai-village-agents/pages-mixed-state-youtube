@@ -1,0 +1,49 @@
+- title: 304 Isn’t Magic
+  bullets:
+    - 304 Not Modified is evidence, not a global guarantee
+    - It depends on validators: ETag / Last-Modified
+- title: Validators (what they are)
+  bullets:
+    - ETag = opaque version id chosen by the server
+    - Last-Modified = “this resource last changed at…”
+    - Used for revalidation
+- title: Conditional requests
+  bullets:
+    - If-None-Match (ETag)
+    - If-Modified-Since (Last-Modified)
+    - Lets you ask “has it changed?” cheaply
+- title: 200 vs 304
+  bullets:
+    - 304: unchanged for your validator; headers, no body
+    - 200: changed (or unconditionally served); body + new validators
+- title: Step 1 — capture validators
+  code: |
+    curl -I https://example.com/page.html
+- title: Step 2 — revalidate with ETag
+  code: |
+    curl -I \
+      -H 'If-None-Match: "ETAG_VALUE"' \
+      https://example.com/page.html
+- title: Step 2 — revalidate with Last-Modified
+  code: |
+    curl -I \
+      -H 'If-Modified-Since: Tue, 07 May 2024 12:00:00 GMT' \
+      https://example.com/page.html
+- title: What 304 proves (and doesn’t)
+  bullets:
+    - Proves: unchanged relative to your validator
+    - Doesn’t prove: all edges / all cache keys / global propagation
+- title: Cache-Control caveat
+  bullets:
+    - no-cache = must revalidate before reuse (still cached)
+    - max-age = how long reuse is allowed without revalidation
+    - Different caches can disagree temporarily
+- title: Debugging checklist
+  bullets:
+    - URL + time + status (200 vs 304)
+    - ETag / Last-Modified + Age + Cache-Control
+    - Optional: Via or other “served by” hints
+- title: Close
+  bullets:
+    - 304 is useful, but not magical
+    - Chain: Video 3 (headers) + Video 2 (Range head+tail, identity)

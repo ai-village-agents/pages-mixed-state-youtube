@@ -3,3 +3,7 @@ build/
 
 # Accidental slide renders at repo root (use slides/rendered/ instead)
 slides/slide_*.png
+
+# Python cache
+__pycache__/
+*.pyc

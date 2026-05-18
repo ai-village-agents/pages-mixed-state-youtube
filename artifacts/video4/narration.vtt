@@ -1,0 +1,148 @@
+1
+00:00:00,050 --> 00:00:02,400
+304 is not magic.
+
+2
+00:00:02,400 --> 00:00:09,100
+If you run curl dash I and you see 304 Not Modified, that is not proof your latest deploy is everywhere.
+
+3
+00:00:09,100 --> 00:00:13,162
+A 304 is a claim about this request and this validator.
+
+4
+00:00:13,162 --> 00:00:15,062
+Two headers matter a lot.
+
+5
+00:00:15,062 --> 00:00:19,200
+ETag is an opaque version identifier chosen by the server.
+
+6
+00:00:19,200 --> 00:00:23,487
+Last Modified is a timestamp for when the resource last changed.
+
+7
+00:00:23,487 --> 00:00:28,337
+They are called validators because you can ask, has this changed since the version I saw.
+
+8
+00:00:28,337 --> 00:00:34,512
+A conditional request is you saying, give me this resource only if it does not match this ETag.
+
+9
+00:00:34,512 --> 00:00:38,087
+Or, only if it is newer than this Last Modified time.
+
+10
+00:00:38,087 --> 00:00:43,975
+If the server agrees it is unchanged, it can reply 304 with headers and no body.
+
+11
+00:00:43,975 --> 00:00:48,837
+If it changed, you get 200 and a body, plus a new ETag or Last Modified.
+
+12
+00:00:48,837 --> 00:00:50,962
+Here is the practical pattern.
+
+13
+00:00:50,962 --> 00:00:53,212
+First, capture the validators.
+
+14
+00:00:53,212 --> 00:00:57,800
+Second, send a conditional request using those validators.
+
+15
+00:00:57,800 --> 00:01:02,912
+This is especially helpful when the page is huge, because you can keep the payload tiny.
+
+16
+00:01:02,912 --> 00:01:05,125
+What does a 304 prove.
+
+17
+00:01:05,125 --> 00:01:09,275
+Relative to the validator you sent, the server says unchanged.
+
+18
+00:01:09,275 --> 00:01:10,937
+What does it not prove.
+
+19
+00:01:10,937 --> 00:01:14,637
+It does not prove every CDN edge has the same version.
+
+20
+00:01:14,637 --> 00:01:17,662
+It does not prove your deploy fully propagated.
+
+21
+00:01:17,662 --> 00:01:22,500
+And it does not prove other URLs or cache keys are not serving something different.
+
+22
+00:01:22,500 --> 00:01:25,937
+If you want to talk about mixed state, you need comparisons.
+
+23
+00:01:25,937 --> 00:01:28,812
+Compare different URLs and cache keys.
+
+24
+00:01:28,812 --> 00:01:33,037
+And for huge HTML, confirm with Range head plus tail.
+
+25
+00:01:33,037 --> 00:01:36,050
+Cache behavior is governed by Cache Control.
+
+26
+00:01:36,050 --> 00:01:38,600
+No cache does not mean do not cache.
+
+27
+00:01:38,600 --> 00:01:41,700
+It means you must revalidate before using it.
+
+28
+00:01:41,700 --> 00:01:46,900
+Max age controls how long a cache can reuse a response without revalidation.
+
+29
+00:01:46,900 --> 00:01:54,600
+So you can see a 304 from one place, and a stale 200 from another, depending on what each cache has and whether it revalidated.
+
+30
+00:01:54,600 --> 00:01:56,837
+Here is a practical checklist.
+
+31
+00:01:56,837 --> 00:02:05,437
+Log the URL, the time, the status, ETag or Last Modified, Age, Cache Control, and any served by hint headers like Via.
+
+32
+00:02:05,437 --> 00:02:07,025
+Then repeat later.
+
+33
+00:02:07,025 --> 00:02:09,812
+The biggest win is not a perfect model.
+
+34
+00:02:09,812 --> 00:02:13,137
+It is a paper trail of what you actually observed.
+
+35
+00:02:13,137 --> 00:02:15,000
+304 is useful.
+
+36
+00:02:15,000 --> 00:02:20,287
+Just treat it as evidence about a specific validator, not a global guarantee.
+
+37
+00:02:20,287 --> 00:02:28,862
+For a safer workflow, chain this with reading headers in Video 3, and Range head plus tail with Accept Encoding identity in Video 2.
+
