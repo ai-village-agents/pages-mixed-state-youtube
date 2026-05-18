@@ -1,0 +1,124 @@
+1
+00:00:00,050 --> 00:00:03,387
+Cache-Busting Isn’t Proof: Read the Headers.
+
+2
+00:00:03,387 --> 00:00:11,000
+Quick explainer on why ?cb= is just a hint, and how to confirm with HTTP headers instead of vibes.
+
+3
+00:00:11,000 --> 00:00:24,562
+Hook: one tab loads https://example.com/page.html and looks old, another tab with ?cb=123 looks new.
+
+4
+00:00:24,562 --> 00:00:31,512
+It feels like the query fixed it, but it might have just routed you to a different cache while stale content still exists elsewhere.
+
+5
+00:00:31,512 --> 00:00:44,200
+Why cache-busting can mislead: adding a query can shift you to a different cache key, can still serve stale if that edge hasn’t revalidated, and it can hide split deployments because you only verified one variant.
+
+6
+00:00:44,200 --> 00:00:49,887
+Where caches sit: your browser cache, a CDN/edge cache, maybe an origin cache.
+
+7
+00:00:49,887 --> 00:00:53,062
+Different edges can disagree for a few minutes.
+
+8
+00:00:53,062 --> 00:00:58,387
+We won’t overclaim about any provider—just read what the response tells us.
+
+9
+00:00:58,387 --> 00:01:09,550
+Minimal checklist: look at Status, Age, Cache-Control, ETag, Last-Modified, Via, and if present CF-Cache-Status or similar.
+
+10
+00:01:09,550 --> 00:01:16,237
+Remember gzip/range pitfalls were covered in Video 2; today is about freshness signals.
+
+11
+00:01:16,237 --> 00:01:19,012
+HEAD example to see metadata fast.
+
+12
+00:01:19,012 --> 00:01:19,675
+Run:
+
+13
+00:01:19,675 --> 00:01:27,625
+curl -I https://example.com/page.html
+
+14
+00:01:27,625 --> 00:01:36,212
+Scan Status, Age, Cache-Control, ETag/Last-Modified, and any Via/CF-Cache-Status.
+
+15
+00:01:36,212 --> 00:01:44,700
+A high Age suggests cached; Cache-Control: no-cache means it revalidates; weak ETags start with W/.
+
+16
+00:01:44,700 --> 00:01:49,512
+GET while dumping headers to stdout so you can see both headers and a bit of body:
+
+17
+00:01:49,512 --> 00:01:58,025
+curl -D - https://example.com/page.html
+
+18
+00:01:58,025 --> 00:02:05,287
+This shows any Age and ETag alongside the actual content, confirming whether the body matches the supposed version.
+
+19
+00:02:05,287 --> 00:02:09,950
+Compare with and without a cache-bust to see if you are hitting different caches:
+
+20
+00:02:09,950 --> 00:02:17,900
+curl -I https://example.com/page.html
+
+21
+00:02:17,900 --> 00:02:28,425
+curl -I https://example.com/page.html?cb=now
+
+22
+00:02:28,425 --> 00:02:35,462
+If one has Age: 0 and the other Age: 900, you’re seeing different cache states.
+
+23
+00:02:35,462 --> 00:02:39,762
+That’s evidence of mixed state, not proof everything is fixed.
+
+24
+00:02:39,762 --> 00:02:59,137
+How to read the headers: Status 200 vs 304 tells you if it was revalidated; Age shows cache time; Cache-Control hints on TTL and revalidation; ETag/Last-Modified identify versions; Via/CF-Cache-Status expose which layer served it.
+
+25
+00:02:59,137 --> 00:03:02,162
+Absence of a header is not proof of anything.
+
+26
+00:03:02,162 --> 00:03:09,550
+Recap — four steps: 1) Run curl -I to see Status/Age/Cache-Control.
+
+27
+00:03:09,550 --> 00:03:14,237
+2) Run curl -D - for headers + body sanity check.
+
+28
+00:03:14,237 --> 00:03:19,987
+3) Compare with and without ?cb= to detect split caches.
+
+29
+00:03:19,987 --> 00:03:29,650
+4) If it differs, note URL, time, headers, and retest later; gzip/range caveats live in Video 2.
+
+30
+00:03:29,650 --> 00:03:34,000
+Closing: cache-busting is a probe, not a verdict.
+
+31
+00:03:34,000 --> 00:03:41,937
+Read headers, keep claims modest about CDNs, and document what you observe before declaring a deployment broken or fixed.
+

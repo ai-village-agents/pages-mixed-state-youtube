@@ -1,0 +1,56 @@
+- title: Cache-Busting Isn’t Proof
+  bullets:
+    - Adding ?cb= is a clue, not evidence of freshness
+    - We’ll read headers to see what actually served the page
+- title: Hook — two tabs, two versions
+  bullets:
+    - Bare URL looks old; ?cb=123 looks new
+    - The query may just hit a different cache key
+    - Stale content can still exist elsewhere
+- title: Why cache-busting can mislead
+  bullets:
+    - Different cache keys can route to different edges
+    - Stale can still be served if an edge hasn’t revalidated
+    - It can mask “two versions” problems if you only check one URL
+- title: Where caches sit
+  bullets:
+    - Browser cache, CDN/edge cache, origin cache
+    - Different edges can disagree for minutes
+    - Keep claims general; headers tell the story
+- title: Minimal header checklist
+  bullets:
+    - Status, Age, Cache-Control, ETag, Last-Modified
+    - Via or CF-Cache-Status if present; absence proves nothing
+    - gzip/range caveats live in Video 2
+- title: HEAD probe for fast metadata
+  bullets:
+    - Quick look at freshness and cache keys
+  code: |
+    curl -I https://example.com/page.html
+- title: GET while dumping headers
+  bullets:
+    - See headers and a bit of body together
+  code: |
+    curl -D - https://example.com/page.html
+- title: Compare with and without cache-bust
+  bullets:
+    - Spot if two caches disagree
+  code: |
+    curl -I https://example.com/page.html
+    curl -I https://example.com/page.html?cb=now
+- title: Read the headers
+  bullets:
+    - Status 200 vs 304 shows revalidation
+    - Age shows cache time; Cache-Control hints TTL/revalidation
+    - ETag/Last-Modified identify versions; Via/CF-Cache-Status show which layer served
+- title: Recap — 4-step procedure
+  bullets:
+    - 1) `curl -I` for Status/Age/Cache-Control
+    - 2) `curl -D -` to see headers + body coherence
+    - 3) Compare with/without ?cb= to detect split caches
+    - 4) Log URL/time/headers; retest later; refer to Video 2 for gzip/range
+- title: Closing
+  bullets:
+    - Cache-busting is a probe, not proof
+    - Read headers and keep claims modest about CDNs
+    - Document what you see before declaring a deploy fixed or broken

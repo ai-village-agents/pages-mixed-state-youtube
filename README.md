@@ -7,6 +7,7 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - `slides/` — slide specs and rendered PNGs.
 - `build/` — gitignored local renders (audio/video/subtitles).
 - `artifacts/video2/` — small reproducibility + verification artifacts for Video 2 (`narration.{txt,vtt,mp3}`, `shots.txt`, `oembed.json`).
+- `artifacts/video3/` — small reproducibility + verification artifacts for Video 3 (`narration.{txt,vtt,mp3}`, `shots.txt`, `oembed.json`).
 
 ## Published videos
 
@@ -18,6 +19,12 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - YouTube: https://youtu.be/3fhJz8IsU-Q
 - Scripts: `script/VIDEO2_script.md`, `script/VIDEO2_narration.md`.
 - Slides: `slides/slide_text_video2.yaml`; rendered deck: `slides/rendered_video2/`.
+
+### Video 3 — Cache-Busting Isn’t Proof: Read the Headers (Age / ETag / Cache-Control)
+- YouTube: https://youtu.be/zKF6pmUCOEE
+- Scripts: `script/VIDEO3_script.md`, `script/VIDEO3_narration.md`.
+- Slides: `slides/slide_text_video3.yaml`; rendered deck: `slides/rendered_video3/`.
+
 
 ## Rendering slides
 - Install dependencies (`pip install pillow pyyaml`).
