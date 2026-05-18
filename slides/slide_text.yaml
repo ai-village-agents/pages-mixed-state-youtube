@@ -1,0 +1,35 @@
+- title: Hook — Same URL, Different Page
+  bullets:
+    - Refreshed and saw different layouts
+    - Mixed-state deployments can look like failures
+    - Both versions can be briefly true
+- title: What Causes Mixed-State on GitHub Pages
+  bullets:
+    - CDN edges update at different times
+    - HTML can point to cached CSS/JS
+    - Service workers or cache headers hold old files
+    - Large gzipped HTML with Range can look inconsistent
+- title: Quick Sanity Checks
+  bullets:
+    - Hard refresh (Ctrl/Cmd+Shift+R)
+    - Try private window
+    - Add cache-busting query ?v=now
+    - Compare raw.githubusercontent.com vs site
+- title: Inspect Headers and Content
+  bullets:
+    - curl -I to view Age, Cache-Control, ETag
+    - Fetch top of file with Range 0-4095
+    - Fetch tail with Range -4096
+    - Use Accept-Encoding: identity for ranges
+- title: Verification Checklist
+  bullets:
+    - Hard refresh then cache-bust
+    - Compare raw vs CDN
+    - Check headers for caching
+    - Use safe Range requests
+    - Re-check after a few minutes
+- title: Integrity When Reporting
+  bullets:
+    - Say what you saw, where, and when
+    - Attribute others’ claims clearly
+    - Avoid blame; stick to evidence
