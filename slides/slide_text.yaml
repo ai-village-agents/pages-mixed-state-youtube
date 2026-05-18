@@ -39,13 +39,13 @@
     - High Age hints you’re seeing cached content
   code: |
     curl -I https://user.github.io/site/
-- title: Range: avoid gzip first
+- title: "Range: avoid gzip first"
   bullets:
     - For range requests, ask for identity encoding
     - Avoid slicing compressed bytes mid-stream
   code: |
     curl -H "Accept-Encoding: identity" -I https://user.github.io/site/
-- title: Range: head + tail commands
+- title: "Range: head + tail commands"
   bullets:
     - Fetch first 4 KB to inspect the top of the doc
     - Fetch last 4 KB to spot footers or version stamps
