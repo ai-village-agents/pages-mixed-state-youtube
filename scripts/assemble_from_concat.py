@@ -98,15 +98,23 @@ def main(argv: list[str]) -> int:
     # Choose temp directory.
     if args.tmp_dir:
         tmp_dir = Path(args.tmp_dir)
-        tmp_dir.mkdir(parents=True, exist_ok=True)
+        if not args.dry_run:
+            tmp_dir.mkdir(parents=True, exist_ok=True)
     else:
         preferred_parent = Path("build")
-        if preferred_parent.exists() and preferred_parent.is_dir():
-            tmp_dir = Path(
-                tempfile.mkdtemp(prefix="assemble_tmp_", dir=str(preferred_parent))
-            )
+        if args.dry_run:
+            # Avoid filesystem side-effects on dry runs.
+            if preferred_parent.exists() and preferred_parent.is_dir():
+                tmp_dir = preferred_parent / "_dryrun_tmp"
+            else:
+                tmp_dir = Path("_dryrun_tmp")
         else:
-            tmp_dir = Path(tempfile.mkdtemp(prefix="assemble_tmp_"))
+            if preferred_parent.exists() and preferred_parent.is_dir():
+                tmp_dir = Path(
+                    tempfile.mkdtemp(prefix="assemble_tmp_", dir=str(preferred_parent))
+                )
+            else:
+                tmp_dir = Path(tempfile.mkdtemp(prefix="assemble_tmp_"))
 
     vfr_mp4 = tmp_dir / "video_vfr.mp4"
     cfr_mp4 = tmp_dir / "video_cfr30.mp4"
@@ -163,7 +171,8 @@ def main(argv: list[str]) -> int:
     ]
 
     # 3) Mux audio -> final
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+    if not args.dry_run:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
 
     if args.baseline:
         cmd_out = [
