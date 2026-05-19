@@ -12,6 +12,11 @@ python slides/render_slides.py --input slides/slide_text.yaml --output-dir slide
 Outputs: `slides/rendered/slide_01.png`, `slide_02.png`, ...
 
 Notes:
+- YAML tip: if a bullet contains a colon (e.g. `Cache-Control: no-cache`) and you want plain text, wrap the whole bullet in quotes to avoid YAML treating it like a mapping.
+- Optional: generate a quick contact sheet montage for a rendered deck:
+  ```bash
+  python slides/make_montage.py slides/rendered_video5
+  ```
 - 1920×1080, dark background, teal titles.
 - Uses DejaVu fonts if available; falls back to default fonts.
 
