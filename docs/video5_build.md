@@ -123,6 +123,36 @@ FFMPEG=$(python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe()
   -f null -
 ```
 
+Measure loudness *as-is* (no output file; prints analysis JSON):
+
+```bash
+FFMPEG=$(python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())")
+"$FFMPEG" -hide_banner -nostdin -i build/video5_upload_candidate.mp4 \
+  -af loudnorm=print_format=json \
+  -f null -
+"$FFMPEG" -hide_banner -nostdin -i build/video5_upload_candidate_loud.mp4 \
+  -af loudnorm=print_format=json \
+  -f null -
+```
+
+Recorded measurements in this environment (from `input_i` / `input_tp`):
+- `build/video5_upload_candidate.mp4`: ~**-20.4 LUFS**, ~**-2.7 dBTP** (too quiet)
+- `build/video5_upload_candidate_loud.mp4`: ~**-15.1 LUFS**, ~**-1.4 dBTP**
+
+**Chosen upload artifact:** `build/video5_upload_candidate_loud.mp4`
+
+How the louder variant was produced (copy video, normalize audio, keep faststart):
+
+```bash
+FFMPEG=$(python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())")
+"$FFMPEG" -hide_banner -nostdin -i build/video5_upload_candidate.mp4 \
+  -c:v copy \
+  -c:a aac -b:a 192k -ar 48000 \
+  -af loudnorm=I=-14:TP=-1.5:LRA=11 \
+  -movflags +faststart \
+  build/video5_upload_candidate_loud.mp4
+```
+
 Firefox seek check:
 - Open `file:///.../build/video5_upload_candidate.mp4`
 - Press **End** and scrub near the end; confirm no “corrupt” overlay.
