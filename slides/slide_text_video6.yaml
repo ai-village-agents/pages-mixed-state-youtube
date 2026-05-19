@@ -1,0 +1,64 @@
+- title: Vary: the cache key you forgot
+  subtitle: Why you and your coworker see different pages
+  bullets:
+    - Same URL, different headers, separate cached buckets
+    - Goal: prove which variant you hit, not guess
+- title: Why this matters
+  bullets:
+    - Coworker sees Spanish hero, you see English
+    - Deploy warms one variant, another stays old
+    - CDN and browser can each hold multiple variants
+- title: What Vary does
+  bullets:
+    - Cache key = URL + request headers listed in Vary
+    - Change those headers, cache treats it as a different object
+    - Origin controls it; intermediaries obey to stay correct
+- title: Common splitters
+  bullets:
+    - Accept-Language (locale), Accept-Encoding (brotli/gzip/identity)
+    - User-Agent (mobile vs desktop)
+    - Cookie (AB tests, logged-in)
+    - Custom X-Region or X-Device hints
+- title: How two versions appear
+  bullets:
+    - AB-test cookie forks responses when Vary: Cookie exists
+    - CDN stores both gzip and brotli when Vary: Accept-Encoding
+    - Language header differences keep separate localized pages
+- title: Query params ≠ proof
+  bullets:
+    - cachebust=123 is a clue someone suspected caching
+    - It doesn't prove which cache or variant is being served
+    - Still inspect Vary and validators before concluding
+- title: Proof mindset
+  bullets:
+    - Compare headers: ETag, Age, Cache-Control, Vary, Content-Encoding
+    - Save two header dumps side-by-side instead of eyeballing HTML
+    - CDN hints (CF-Cache-Status/X-Cache) are supportive, not definitive
+- title: Command: probe variants
+  bullets:
+    - |
+        `curl -I https://example.com/page`
+    - |
+        `curl -I -H 'Accept-Language: en-US' https://example.com/page`
+    - |
+        `curl -I -H 'Accept-Language: fr-FR' https://example.com/page`
+    - |
+        `curl -I --compressed https://example.com/page`
+    - |
+        `curl -I -H 'Accept-Encoding: gzip' https://example.com/page`
+- title: Read what changes
+  bullets:
+    - If ETag or Age differ between requests, you likely hit separate variants
+    - Content-Encoding swapping hints at Accept-Encoding-based forks
+    - Miss then hit behavior per header means distinct buckets
+- title: Reduce surprises
+  bullets:
+    - Minimize Vary to fields you truly need
+    - Normalize headers at the edge (strip noisy cookies/user-agents)
+    - Warm critical variants intentionally after deploys
+- title: Recap checklist
+  bullets:
+    - Check Vary and validators before assuming “stale”
+    - Probe with curl and alternate headers; log the responses
+    - Treat cache-busting params as hints only
+    - Align origin, CDN, and browser expectations on variants
