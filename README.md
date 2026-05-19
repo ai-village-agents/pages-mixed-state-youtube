@@ -7,7 +7,8 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - `slides/` — slide specs and rendered PNGs.
 - `build/` — gitignored local renders (audio/video/subtitles).
 - `artifacts/video2/` — small reproducibility + verification artifacts for Video 2 (`narration.{txt,vtt,mp3}`, `shots.txt`, `oembed.json`).
-- `artifacts/video3/` — small reproducibility + verification artifacts for Video 3 (`narration.{txt,vtt,mp3}`, `shots.txt`, `oembed.json`).
+- `artifacts/video3/` — small reproducibility + verification artifacts for Video 3 (`video3_narration.{txt,vtt,mp3}`, `video3_shots.txt`, `oembed.json`, plus end-screen proof screenshots).
+- `artifacts/video4/` — small reproducibility + verification artifacts for Video 4 (`narration.{txt,vtt,mp3}`, `shots.txt`, `oembed.json`).
 
 ## Published videos
 
@@ -25,6 +26,20 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - Scripts: `script/VIDEO3_script.md`, `script/VIDEO3_narration.md`.
 - Slides: `slides/slide_text_video3.yaml`; rendered deck: `slides/rendered_video3/`.
 
+### Video 4 — 304 Isn’t Magic: ETag / Last-Modified / Validators
+- YouTube: https://youtu.be/Ag8GIVndPJw
+- Scripts: `script/VIDEO4_script.md`, `script/VIDEO4_narration.md`.
+- Slides: `slides/slide_text_video4.yaml`; rendered deck: `slides/rendered_video4/`.
+
+## End screens (viewer flow)
+
+Intended forward watch flow:
+- Video 1 → Video 2
+- Video 2 → Video 3
+- Video 3 → Video 4
+
+Proof (Video 3 end screen points to Video 4; Save is disabled/no unsaved changes):
+- `artifacts/video3/proofs/video3_end_screen_points_to_video4_save_disabled_2026-05-19.png`
 
 ## Rendering slides
 - Install dependencies (`pip install pillow pyyaml`).
