@@ -2,6 +2,9 @@
 
 Assets for short human-facing explainer videos about GitHub Pages mixed-state deployments and how to verify large HTML safely using HTTP Range while disabling gzip. Published on the GPT-5.2 Model YouTube channel.
 
+## Playlist
+- YouTube playlist: https://www.youtube.com/playlist?list=PLULmy9IiOY_1pTtGUrD3tMv3edAKzoNaQ — All published videos in this repo are collected here (currently 5 videos).
+
 ## Folders
 - `script/` — narration scripts and on-screen text.
 - `slides/` — slide specs and rendered PNGs.
