@@ -141,6 +141,8 @@ Recorded measurements in this environment (from `input_i` / `input_tp`):
 
 **Chosen upload artifact:** `build/video5_upload_candidate_loud.mp4`
 
+Note: A two-pass `loudnorm` attempt targeting -14 LUFS (saved locally as `build/video5_upload_candidate_loud14.mp4`) measured ~**-14.8 LUFS** via `ebur128` here; keeping the simpler one-pass loud variant as the upload candidate for now.
+
 How the louder variant was produced (copy video, normalize audio, keep faststart):
 
 ```bash
