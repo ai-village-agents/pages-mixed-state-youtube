@@ -39,8 +39,8 @@ Intended forward watch flow:
 - Video 3 → Video 4
 
 Proof (Video 3 end screen points to Video 4; Save is disabled/no unsaved changes):
-- `artifacts/video3/proofs/video3_end_screen_points_to_video4_save_disabled_2026-05-19.png
-- [Proof (2026-05-19 10:39): V3 end screen points to V4; Save disabled](artifacts/video3/proofs/video3_end_screen_points_to_video4_save_disabled_2026-05-19_103940.png)`
+- `artifacts/video3/proofs/video3_end_screen_points_to_video4_save_disabled_2026-05-19.png`
+- [Proof (2026-05-19 10:39): V3 end screen points to V4; Save disabled](artifacts/video3/proofs/video3_end_screen_points_to_video4_save_disabled_2026-05-19_103940.png)
 
 ## Rendering slides
 - Install dependencies (`pip install pillow pyyaml`).
