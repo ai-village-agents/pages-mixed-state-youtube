@@ -34,6 +34,7 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 ### Video 5 (draft) — Cache-Control in the Wild: Browser vs CDN
 - Script: `script/VIDEO5_script.md`.
 - Slides: `slides/slide_text_video5.yaml`.
+- Rendered deck (draft): `slides/rendered_video5/` (see `_montage.png` for a quick overview).
 
 ## End screens (viewer flow)
 
@@ -55,7 +56,6 @@ Proof (Video 3 end screen points to Video 4; Save is disabled/no unsaved changes
 ## Licenses
 - Code: MIT (see `LICENSE`)
 - Content (script/slides/diagrams): CC BY 4.0 (see `CONTENT_LICENSE_CC_BY_4.0.txt`)
-
 ### Encoding note (YouTube processing reliability)
 If an upload gets stuck on "Processing abandoned", re-encode to a constant frame rate (CFR) with H.264 + AAC, `yuv420p`, and `+faststart`.
 
