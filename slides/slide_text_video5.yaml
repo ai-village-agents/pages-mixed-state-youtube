@@ -24,7 +24,7 @@
 - title: Demo commands
   bullets:
     - Baseline (curl skips browser cache): curl -I URL  (Cache-Control / Age / ETag)
-    - Probe revalidation: curl -I -H Cache-Control:no-cache URL  (behavior varies)
+    - Probe revalidation: "curl -I -H 'Cache-Control: no-cache' URL  (behavior varies)"
     - Repeat quickly: curl -I URL; sleep 1; curl -I URL  (watch Age / 304 / ETag)
 - title: Common traps
   bullets:
