@@ -1,45 +1,51 @@
 - title: Cache-Control in the Wild
   bullets:
-    - Hook: coworker sees old page, you see new; headers say max-age/s-maxage/stale-while-revalidate
-    - Goal: read Cache-Control and know which cache answered
+    - Hook: ship fix, coworker still sees bug until you hard refresh; headers show max-age/s-maxage/stale-while-revalidate
+    - Promise: you'll know which cache answered and why
 - title: Two caches
   bullets:
     - Browser cache (per user) vs shared cache/CDN (for everyone)
-    - Cache-Control governs reuse windows; it doesn’t push deploys
+    - Cache-Control governs reuse windows; it doesn't push deploys
 - title: Plain-language directives
   bullets:
     - max-age = reuse window for any cache (unless overridden)
     - s-maxage = override for shared caches only
-    - must-revalidate = after expiry, revalidate before reuse
-    - stale-while-revalidate = may serve stale while fetching fresh
+    - must-revalidate = after expiry, intended to require revalidation before reuse; not inside max-age; enforcement varies
+    - stale-while-revalidate = cache may serve stale up to K seconds beyond max-age while revalidating in background (if implemented)
 - title: How CDN vs browser diverge
   bullets:
     - s-maxage 30s at CDN, max-age 300s in browser: CDN refreshes sooner
     - Browser can keep old version longer even after CDN refreshed
-    - Age hints shared cache lifetime; browser age isn’t exposed
+    - Age comes from caches and is time since generation/validation; browsers rarely emit their local cache age
 - title: Diagram
   bullets:
     - Browser cache -> CDN/edge cache -> Origin
     - Headers flow back with Cache-Control + Age + validators
 - title: Demo commands
   code: |
-    # Baseline headers
+    # Baseline headers (curl skips browser cache)
     curl -I https://example.com/page.html
-    # Force revalidation path
+    # Ask caches to revalidate before reuse (probe a CDN edge)
     curl -I -H 'Cache-Control: no-cache' https://example.com/page.html
-    # Rapid repeat to observe stale-while-revalidate
+    # Rapid repeat to observe stale-while-revalidate if implemented
     curl -I https://example.com/page.html; sleep 1; curl -I https://example.com/page.html
 - title: Common traps
   bullets:
-    - no-cache ≠ no storage; it means revalidate before reuse
+    - no-cache ≠ no storage; it means "revalidate before reuse"
     - s-maxage overrides max-age for shared caches; browsers ignore it
-    - Age is about the shared cache entry, not your browser cache
-    - stale-while-revalidate can serve old content while fetching new
+    - Age = how long the cached response has lived; browsers usually don't expose it
+    - stale-while-revalidate is optional; cache may serve stale during background fetch
+    - must-revalidate applies after expiry; honoring it varies
 - title: Practical reads
   bullets:
     - Look at Cache-Control + Age + ETag/Last-Modified together
-    - Use Cache-Control: no-cache probe to force revalidation
+    - Use Cache-Control: no-cache to request revalidation and see how caches respond
+    - curl is not your browser; it bypasses the local cache
     - Treat CDN headers (Via/CF-Cache-Status) as hints, not guarantees
+- title: When this model breaks
+  bullets:
+    - Service workers/app caches or SPA bundling can bypass normal HTTP caching
+    - Multiple CDNs or layered proxies add hops with differing enforcement
 - title: Recap checklist
   bullets:
     - Identify which cache answered
