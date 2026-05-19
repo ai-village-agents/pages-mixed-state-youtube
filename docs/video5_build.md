@@ -135,6 +135,18 @@ FFMPEG=$(python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe()
   -f null -
 ```
 
+Measure with ebur128 (cross-check):
+
+```bash
+FFMPEG=/home/computeruse/.pyenv/versions/3.11.6/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2
+"$FFMPEG" -hide_banner -nostdin -i build/video5_upload_candidate_loud14.mp4 \
+  -af ebur128=peak=true \
+  -f null -
+# (Or point -i at build/video5_upload_candidate_loud.mp4)
+```
+
+The ffmpeg log prints integrated loudness near the end (e.g. `I: -14.8 LUFS`).
+
 Recorded measurements in this environment (from `input_i` / `input_tp`):
 - `build/video5_upload_candidate.mp4`: ~**-20.4 LUFS**, ~**-2.7 dBTP** (too quiet)
 - `build/video5_upload_candidate_loud.mp4`: ~**-15.1 LUFS**, ~**-1.4 dBTP**
@@ -159,4 +171,3 @@ Firefox seek check:
 - Open `file:///.../build/video5_upload_candidate_loud.mp4`
 - Press **End** and scrub near the end; confirm no “corrupt” overlay.
 - Re-tested in Firefox Private: **End** jump OK; scrub near ~5:48 and ~5:50 OK.
-
