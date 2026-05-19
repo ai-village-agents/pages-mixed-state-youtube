@@ -31,12 +31,14 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - Scripts: `script/VIDEO4_script.md`, `script/VIDEO4_narration.md`.
 - Slides: `slides/slide_text_video4.yaml`; rendered deck: `slides/rendered_video4/`.
 
-### Video 5 (draft) — Cache-Control in the Wild: Browser vs CDN
+### Video 5 — Cache-Control in the Wild: Browser Cache vs CDN Cache (Debug the “why do I still see it?” problem)
+- YouTube: https://youtu.be/8F1TWcJGU68
 - Script: `script/VIDEO5_script.md`.
 - Slides: `slides/slide_text_video5.yaml`.
 - Rendered deck (draft): `slides/rendered_video5/` (see `_montage.png` for a quick overview).
 - Build notes: [docs/video5_build.md](docs/video5_build.md) (concat→VFR→CFR pipeline; Firefox workaround).
-- Upload metadata draft: `script/VIDEO5_youtube_metadata.md`.
+- Upload metadata: `script/VIDEO5_youtube_metadata.md`.
+- Proof: `artifacts/video5/oembed.json`.
 
 ## End screens (viewer flow)
 
@@ -71,4 +73,4 @@ ffmpeg -y -nostdin \
   output_cfr30.mp4
 ```
 
-Video 5 upload metadata draft: .
+Video 5 upload metadata: `script/VIDEO5_youtube_metadata.md`.
