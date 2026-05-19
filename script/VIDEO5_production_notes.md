@@ -49,13 +49,13 @@
 ## Real-world header examples (captured via curl)
 Call out the Age line and cache/vendor hints on screen so viewers know what to scan for when they run their own probes.
 
-- https://www.example.com/
+- https://www.wikipedia.org/
   ```
   HTTP/2 200
-  server: cloudflare
-  last-modified: Sun, 17 May 2026 20:05:30 GMT
-  age: 8087
-  cf-cache-status: HIT
+  cache-control: s-maxage=86400, must-revalidate, max-age=3600
+  etag: W/"1d5fe-65190a32c64c0"
+  age: 15987
+  x-cache: cp1112 miss, cp1112 hit/1242670
   ```
 - https://github.githubassets.com/favicon.ico
   ```
