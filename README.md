@@ -31,6 +31,10 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - Scripts: `script/VIDEO4_script.md`, `script/VIDEO4_narration.md`.
 - Slides: `slides/slide_text_video4.yaml`; rendered deck: `slides/rendered_video4/`.
 
+### Video 5 (draft) — Cache-Control in the Wild: Browser vs CDN
+- Script: `script/VIDEO5_script.md`.
+- Slides: `slides/slide_text_video5.yaml`.
+
 ## End screens (viewer flow)
 
 Intended forward watch flow:
