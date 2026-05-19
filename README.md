@@ -35,6 +35,7 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - Script: `script/VIDEO5_script.md`.
 - Slides: `slides/slide_text_video5.yaml`.
 - Rendered deck (draft): `slides/rendered_video5/` (see `_montage.png` for a quick overview).
+- Build notes: [docs/video5_build.md](docs/video5_build.md) (concat→VFR→CFR pipeline; Firefox workaround).
 
 ## End screens (viewer flow)
 
