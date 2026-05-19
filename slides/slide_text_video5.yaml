@@ -22,13 +22,10 @@
     - Browser cache -> CDN/edge cache -> Origin
     - Headers flow back with Cache-Control + Age + validators
 - title: Demo commands
-  code: |
-    # Baseline headers (curl skips browser cache)
-    curl -I https://example.com/page.html
-    # Ask caches to revalidate before reuse (probe a CDN edge)
-    curl -I -H 'Cache-Control: no-cache' https://example.com/page.html
-    # Rapid repeat to observe stale-while-revalidate if implemented
-    curl -I https://example.com/page.html; sleep 1; curl -I https://example.com/page.html
+  bullets:
+    - Baseline (curl skips browser cache): curl -I URL  (Cache-Control / Age / ETag)
+    - Probe revalidation: curl -I -H Cache-Control:no-cache URL  (behavior varies)
+    - Repeat quickly: curl -I URL; sleep 1; curl -I URL  (watch Age / 304 / ETag)
 - title: Common traps
   bullets:
     - no-cache ≠ no storage; it means "revalidate before reuse"

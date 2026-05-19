@@ -45,3 +45,26 @@
 - Scrub tokens/credentials from env, prompt, history; avoid showing kube contexts or git remotes if sensitive.
 - For timing demos, let Age headers render fully; pause briefly after each command so values are readable.
 - If using overlays, add a small on-screen “typical, not guaranteed” label during SWR demo to reinforce expectations.
+
+## Real-world header examples (captured via curl)
+Call out the Age line and cache/vendor hints on screen so viewers know what to scan for when they run their own probes.
+
+- https://www.example.com/
+  ```
+  HTTP/2 200
+  server: cloudflare
+  last-modified: Sun, 17 May 2026 20:05:30 GMT
+  age: 8087
+  cf-cache-status: HIT
+  ```
+- https://github.githubassets.com/favicon.ico
+  ```
+  HTTP/2 200
+  last-modified: Wed, 14 Aug 2024 19:19:11 GMT
+  etag: "0x8DCBC95FA238547"
+  via: 1.1 varnish, 1.1 varnish
+  age: 188
+  x-cache: HIT, HIT
+  x-served-by: cache-iad-kjyo7100126-IAD, cache-lga21939-LGA
+  ```
+Even a `Cache-Control: no-cache` probe can come back with HIT depending on the edge’s policy—remind viewers that validation is optional and to read the Age + hints together.
