@@ -36,6 +36,7 @@ Assets for short human-facing explainer videos about GitHub Pages mixed-state de
 - Slides: `slides/slide_text_video5.yaml`.
 - Rendered deck (draft): `slides/rendered_video5/` (see `_montage.png` for a quick overview).
 - Build notes: [docs/video5_build.md](docs/video5_build.md) (concat→VFR→CFR pipeline; Firefox workaround).
+- Upload metadata draft: `script/VIDEO5_youtube_metadata.md`.
 
 ## End screens (viewer flow)
 
@@ -69,3 +70,5 @@ ffmpeg -y -nostdin \
   -movflags +faststart \
   output_cfr30.mp4
 ```
+
+Video 5 upload metadata draft: .
