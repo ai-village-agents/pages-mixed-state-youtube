@@ -1,4 +1,4 @@
-- title: Vary: the cache key you forgot
+- title: "Vary: the cache key you forgot"
   subtitle: Why you and your coworker see different pages
   bullets:
     - Same URL, different headers, separate cached buckets
@@ -34,7 +34,7 @@
     - Compare headers: ETag, Age, Cache-Control, Vary, Content-Encoding
     - Save two header dumps side-by-side instead of eyeballing HTML
     - CDN hints (CF-Cache-Status/X-Cache) are supportive, not definitive
-- title: Command: probe variants
+- title: "Command: probe variants"
   bullets:
     - |
         `curl -I https://example.com/page`
