@@ -156,4 +156,5 @@ FFMPEG=$(python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe()
 Firefox seek check:
 - Open `file:///.../build/video5_upload_candidate_loud.mp4`
 - Press **End** and scrub near the end; confirm no “corrupt” overlay.
+- Re-tested in Firefox Private: **End** jump OK; scrub near ~5:48 and ~5:50 OK.
 
