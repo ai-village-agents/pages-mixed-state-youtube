@@ -36,12 +36,12 @@
     - Age = how long the cached response has lived; browsers usually don't expose it
     - stale-while-revalidate is optional; cache may serve stale during background fetch
     - must-revalidate applies after expiry; honoring it varies
-- title: Practical reads
+- title: Practical patterns
   bullets:
-    - Look at Cache-Control + Age + ETag/Last-Modified together
-    - Use Cache-Control: no-cache to request revalidation and see how caches respond
-    - curl is not your browser; it bypasses the local cache
-    - Treat CDN headers (Via/CF-Cache-Status) as hints, not guarantees
+    - HTML/doc pages: common pattern is short max-age or no-cache plus ETag/Last-Modified for quick revalidation
+    - Fingerprinted assets (app.abc123.js): common pattern is max-age=31536000 with immutable where supported (varies); rely on filename changes
+    - Sensitive/private responses: common pattern is no-store (and/or private) to avoid unintended caching
+    - Still read Cache-Control + Age + validators together; CDN hints (Via/CF-Cache-Status) are hints, not guarantees
 - title: When this model breaks
   bullets:
     - Service workers/app caches or SPA bundling can bypass normal HTTP caching

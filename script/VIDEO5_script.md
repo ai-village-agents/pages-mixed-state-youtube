@@ -78,11 +78,16 @@ curl -I https://example.com/page.html
 - `must-revalidate` applies after expiry; honoring it varies by intermediary—don't assume it prevents all stale serves.
 - Private content: `Cache-Control: private` stops shared caches, but browsers still cache unless `no-store` or short `max-age`.
 
-### 7) When this model breaks (6:00)
+### 7) Practical patterns (what I actually ship) (5:40)
+- HTML/doc pages: common pattern is short `max-age` or `no-cache` plus validators (ETag/Last-Modified) so revalidation is quick.
+- Fingerprinted static assets (e.g., `app.abc123.js`): common pattern is very long `max-age=31536000` with `immutable` where supported (varies), relying on the filename change to update.
+- Sensitive responses: common pattern is `no-store` (and/or `private`) to avoid unintended caching.
+
+### 8) When this model breaks (6:10)
 - Service workers/app caches or heavy SPA bundling can short-circuit normal HTTP cache semantics.
 - Multiple CDNs or layered proxies can add extra hops where directives or enforcement differ.
 
-### 8) Recap checklist (6:20)
+### 9) Recap checklist (6:40)
 - Identify which cache answered: look at `Age`, `Via`/`CF-Cache-Status`, and whether a CDN is in play.
 - Read `Cache-Control` in full: `max-age`, `s-maxage`, `no-cache`, `must-revalidate`, `stale-while-revalidate`.
 - Probe with `curl -I` plus optional `Cache-Control: no-cache` to force revalidation.
