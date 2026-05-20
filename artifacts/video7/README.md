@@ -24,6 +24,12 @@ Tracked *proof-of-build* artifacts:
 
 Build notes / reproduction: `docs/video7_build.md`.
 
+## Slides-only proof (tracked)
+- `proof_slides_only/ffmpeg_i_video7_slides_only.mp4.txt` — `ffmpeg -i` summary for the slides-only render from sanitized timing.
+- `proof_slides_only/loudnorm_analysis_video7_slides_only.mp4.json` — loudnorm analysis JSON.
+- `proof_slides_only/SHA256SUMS.txt` — hashes covering the above and the slides-only MP4.
+- MP4 itself: `build/video7/video7_slides_only.mp4` (local, gitignored).
+
 ## Reproducibility
 
 - Sanitized slide concat timing (no absolute paths): `slides/rendered_video7/concat_timing_video7.txt`
