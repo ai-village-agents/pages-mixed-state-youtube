@@ -1,6 +1,9 @@
 # Build artifacts (audio/video intermediates)
 build/
 
+# QC intermediate frame dumps (contact sheet inputs)
+**/frames_midpoints/
+
 # Accidental slide renders at repo root (use slides/rendered/ instead)
 slides/slide_*.png
 

@@ -14,6 +14,19 @@ This is a **draft** build checklist for Video 7.
 
 ## Step-by-step (draft build)
 
+### 0) Render slides (if needed)
+
+```bash
+python slides/render_slides.py \
+  --input slides/slide_text_video7.yaml \
+  --output-dir slides/rendered_video7
+
+# Optional: montage (slides only; exclude preview PNGs)
+python slides/make_montage.py slides/rendered_video7 \
+  --pattern "slide_[0-9][0-9].png" \
+  --out slides/rendered_video7/_montage.png
+```
+
 ### 1) Generate narration (per-slide segments)
 
 ```bash
@@ -64,6 +77,7 @@ Draft loudnorm summary (from a sample run):
 python scripts/qc_contact_sheet_midpoints.py \
   --video build/video7/video7_upload_candidate_draft_loud.mp4 \
   --concat build/video7/video7_slides_concat_final.txt \
+  --frames-dir build/video7/qc/frames_midpoints \
   --out build/video7/qc_contact_sheet_midpoints.png
 ```
 
