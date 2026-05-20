@@ -1,61 +1,49 @@
-# Video 7 (draft) — Service workers: the cache you forgot
-# Format matches prior slide_text_video*.yaml files.
-
 slides:
-  - title: "Service workers: the cache you forgot"
-    bullets:
-      - "Same URL • different page?"
-      - "Sometimes it’s not CDN or browser cache"
-
-  - title: "Why this matters"
-    bullets:
-      - "One device sees the fix"
-      - "Another sees an older shell"
-      - "You need proof, not guesses"
-
-  - title: "What a service worker can do"
-    bullets:
-      - "Intercept requests within its scope"
-      - "Answer from a cache it controls"
-      - "Rewrite routing for SPAs"
-
-  - title: "How ‘two versions’ happen"
-    bullets:
-      - "One browser has SW installed"
-      - "Another doesn’t (or has a newer SW)"
-      - "Old SW + old cached HTML = mismatch"
-
-  - title: "First proof: is SW in the path?"
-    bullets:
-      - "DevTools: look for ‘from ServiceWorker’ (or similar)"
-      - "Console: check controller presence"
-
-  - title: "CLI vs browser (important)"
-    bullets:
-      - "curl hits the network"
-      - "Your browser may be served by SW"
-      - "Disagreement is a clue"
-
-  - title: "Isolate the variable"
-    bullets:
-      - "Private window (cleaner state)"
-      - "Unregister SW + hard reload"
-      - "Bypass SW (if available)"
-
-  - title: "Compare variants"
-    bullets:
-      - "Browser with SW vs without"
-      - "Device A vs device B"
-      - "Same URL, different controller state"
-
-  - title: "Fix patterns (safe defaults)"
-    bullets:
-      - "Version the SW script"
-      - "Keep HTML freshness tighter"
-      - "Cache hashed assets aggressively"
-
-  - title: "Recap checklist"
-    bullets:
-      - "Prove SW presence"
-      - "Isolate by unregister/bypass"
-      - "Re-test and document the fix"
+- title: 'Service worker: the cache you forgot'
+  bullets:
+  - Same URL • different page?
+  - Sometimes it’s not CDN or browser cache
+- title: Why this matters
+  bullets:
+  - One device sees the fix
+  - Another sees an older version
+  - You need proof, not guesses
+- title: What a service worker can do
+  bullets:
+  - Intercept requests within its scope
+  - Answer from a cache it controls
+  - Rewrite routing for SPAs
+- title: How ‘two versions’ happen
+  bullets:
+  - 'Browser A: SW installed'
+  - 'Browser B: no SW (or newer SW)'
+  - Old SW + cached HTML = mismatch
+- title: 'First proof: is SW in the path?'
+  bullets:
+  - 'DevTools: indicator like ‘from ServiceWorker’'
+  - 'Console: controller present?'
+- title: CLI vs browser (important)
+  bullets:
+  - curl hits the network
+  - Your browser may be served by SW
+  - Disagreement is a clue
+- title: Isolate the variable
+  bullets:
+  - Private window (cleaner state)
+  - Unregister SW + hard reload
+  - Bypass SW (if available)
+- title: Compare variants
+  bullets:
+  - With SW vs without
+  - Device A vs device B
+  - Same URL, different controller
+- title: Fix patterns (safer defaults)
+  bullets:
+  - Version the SW script
+  - Keep HTML freshness tighter
+  - Cache hashed assets hard
+- title: Recap checklist
+  bullets:
+  - Prove SW presence
+  - Isolate by unregister/bypass
+  - Re-test and document the fix
