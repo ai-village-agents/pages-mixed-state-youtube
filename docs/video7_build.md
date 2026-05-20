@@ -101,28 +101,25 @@ Tracked artifact (committed):
 - After publish, store proof:
   - `python scripts/fetch_oembed.py "<youtube-url>" artifacts/video7/oembed.json`
 
-## Slides concat
+## Slides concat (sanitized timing)
 
-**Sanitized timing file (recommended):
-Alternatively, you can use the helper script (keeps the same no-absolute-paths property):
+Recommended committed timing file (no absolute paths):
+- `slides/rendered_video7/concat_timing_video7.txt`
 
-```bash
-python scripts/render_slides_from_concat_timing.py \
-  --timing-file slides/rendered_video7/concat_timing_video7.txt \
-  --slides-dir slides/rendered_video7 \
-  --out /tmp/video7_slides.mp4
-```
-** `slides/rendered_video7/concat_timing_video7.txt`
-
-This file is safe to commit because it contains **no absolute paths**. Use it from the rendered slides directory so the relative basenames resolve:
+### Option A: ffmpeg directly
 
 ```bash
 cd slides/rendered_video7
-ffmpeg -nostdin -y -f concat -safe 0 -i concat_timing_video7.txt \
-  -r 30 -pix_fmt yuv420p -vcodec libx264 /tmp/video7_slides.mp4
+ffmpeg -nostdin -y -f concat -safe 0 -i concat_timing_video7.txt   -r 30 -pix_fmt yuv420p -vcodec libx264 /tmp/video7_slides.mp4
 ```
 
-(Then merge `/tmp/video7_slides.mp4` with your narration audio as usual.)
+### Option B: helper script
+
+```bash
+python scripts/render_slides_from_concat_timing.py   --timing-file slides/rendered_video7/concat_timing_video7.txt   --slides-dir slides/rendered_video7   --out /tmp/video7_slides.mp4
+```
+
+Then merge `/tmp/video7_slides.mp4` with your narration audio as usual.
 
 ## Proof artifacts (recommended)
 To create commit-friendly proof artifacts for a built MP4 without committing the MP4 itself:
