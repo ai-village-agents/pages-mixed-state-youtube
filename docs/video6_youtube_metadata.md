@@ -2,11 +2,15 @@
 
 Working title (internal): **Vary: the cache key you forgot**
 
-## Title options
-Pick one:
-1. **Vary: The Cache Key You Forgot (Debug “Two Versions” Bugs)**
-2. **Vary Header Explained: Why You See a Different Page**
-3. **Stop Guessing “Stale”: Check Vary (Cache Debugging)**
+## Title (selected)
+**Vary: The Cache Key You Forgot (Debug “Two Versions” Bugs)**
+
+<details>
+<summary>Other title options (kept for later)</summary>
+
+- Vary Header Explained: Why You See a Different Page
+- Stop Guessing “Stale”: Check Vary (Cache Debugging)
+</details>
 
 ## Description (draft)
 Ever had a “stale page” bug where you and your coworker load the *same URL*… but see *different content*?
