@@ -59,7 +59,9 @@ Outputs (under `build/video6/`):
 Notes:
 - The script adds a small per-slide padding so slide boundaries don’t feel clipped (`--padding-seconds`).
 - It will reuse existing slide MP3s **only if** a manifest entry matches the current (voice + slide text) hash and the MP3 exists and is non-empty.
+- The manifest is written to `build/video6/segments/segments_manifest.json` (gitignored).
 - To resynthesize everything (e.g., after editing narration), run: `python scripts/video6_tts_segments.py --force`.
+- To change voices, pass `--voice` (default: `en-US-BrianNeural`).
 
 ## 4) Generate chapters (optional)
 
