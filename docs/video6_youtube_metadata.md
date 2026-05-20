@@ -62,10 +62,10 @@ vary header, http caching, cache key, cdn cache, browser cache, cache-control, e
 ## Thumbnail direction
 Goal: instantly communicate “same URL, different results” + the word **Vary**.
 
-Option A (minimal):
+Option A (minimal, based on Slide 1):
 - Big title: **Vary**
-- Subtext: **“two versions?”**
-- Visual: split screen of two pages with same URL bar, different language blocks.
+- Subtext: **same URL • different page?**
+- Visual: darkened bottom bar behind the headline; top-left bullets kept small.
 
 Option B (more technical):
 - Big title: **Vary**
