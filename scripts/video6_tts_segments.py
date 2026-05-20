@@ -13,15 +13,19 @@ Then you can assemble via:
     --audio build/video6/video6_narration_brian_final.mp3 --out build/video6/video6_upload_candidate_final.mp4 --baseline
 """
 
+import argparse
 import asyncio
+import hashlib
+import json
 import re
 from pathlib import Path
 import subprocess
 
-VOICE = "en-US-BrianNeural"
+DEFAULT_VOICE = "en-US-BrianNeural"
 MD_PATH = Path("script/VIDEO6_narration.md")
 OUT_DIR = Path("build/video6")
 SEG_DIR = OUT_DIR / "segments"
+MANIFEST_PATH = SEG_DIR / "segments_manifest.json"
 
 # Use imageio-ffmpeg binary so we don't depend on PATH ffmpeg.
 def get_ffmpeg():
@@ -74,9 +78,15 @@ def parse_markdown_slides(md_text: str):
     return out
 
 
-async def synth_to_mp3(text: str, out_path: Path):
+def slide_hash(voice: str, text: str) -> str:
+    h = hashlib.sha256()
+    h.update(f"{voice}\n{text}".encode("utf-8"))
+    return h.hexdigest()
+
+
+async def synth_to_mp3(text: str, voice: str, out_path: Path):
     import edge_tts
-    communicate = edge_tts.Communicate(text=text, voice=VOICE)
+    communicate = edge_tts.Communicate(text=text, voice=voice)
     await communicate.save(str(out_path))
 
 
@@ -136,19 +146,61 @@ def write_slide_concat(slides, durations, out_txt: Path, images_dir: Path):
 
 
 async def main():
+    parser = argparse.ArgumentParser(description="Generate per-slide edge-tts MP3 segments for video 6.")
+    parser.add_argument("--force", action="store_true", help="Resynthesize all slide segments.")
+    parser.add_argument("--voice", default=DEFAULT_VOICE, help="edge-tts voice to use.")
+    parser.add_argument(
+        "--padding-seconds",
+        type=float,
+        default=0.15,
+        help="Extra seconds to add to each slide duration.",
+    )
+    args = parser.parse_args()
+
+    voice = args.voice
+    padding_seconds = args.padding_seconds
+
     md = MD_PATH.read_text(encoding="utf-8")
     slides = parse_markdown_slides(md)
 
     SEG_DIR.mkdir(parents=True, exist_ok=True)
 
+    manifest = None
+    if not args.force and MANIFEST_PATH.exists():
+        try:
+            manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            manifest = None
+    manifest_slides = {s["n"]: s for s in manifest.get("slides", [])} if manifest else {}
+
     # Synthesize segments sequentially (avoid hammering service)
     mp3s = []
+    manifest_entries = []
     for s in slides:
         out_mp3 = SEG_DIR / f"slide_{s['n']:02d}.mp3"
         mp3s.append(out_mp3)
-        if out_mp3.exists() and out_mp3.stat().st_size > 0:
-            continue
-        await synth_to_mp3(s["text"], out_mp3)
+        current_hash = slide_hash(voice, s["text"])
+
+        existing_entry = manifest_slides.get(s["n"])
+        has_match = (
+            existing_entry
+            and existing_entry.get("text_sha256") == current_hash
+            and existing_entry.get("mp3_filename") == out_mp3.name
+            and out_mp3.exists()
+            and out_mp3.stat().st_size > 0
+        )
+
+        if not has_match:
+            await synth_to_mp3(s["text"], voice, out_mp3)
+
+        manifest_entries.append(
+            {
+                "n": s["n"],
+                "title": s["title"],
+                "text_sha256": current_hash,
+                "mp3_filename": out_mp3.name,
+            }
+        )
 
     # Compute per-slide durations
     durations = [mp3_duration_seconds(p) for p in mp3s]
@@ -159,9 +211,16 @@ async def main():
 
     # Write slide concat list with durations (tight). Add a small padding to each slide.
     # We pad slightly so audio doesn't clip at slide boundaries.
-    padded = [d + 0.15 for d in durations]
+    padded = [d + padding_seconds for d in durations]
     concat_txt = OUT_DIR / "video6_slides_concat_final.txt"
     write_slide_concat(slides, padded, concat_txt, Path("slides/rendered_video6"))
+
+    manifest_data = {
+        "voice": voice,
+        "padding_seconds": padding_seconds,
+        "slides": manifest_entries,
+    }
+    MANIFEST_PATH.write_text(json.dumps(manifest_data, indent=2), encoding="utf-8")
 
     total = sum(padded)
     print("Wrote:")

@@ -57,8 +57,9 @@ Outputs (under `build/video6/`):
 - `video6_slides_concat_final.txt` (concat list with per-slide durations)
 
 Notes:
-- The script adds a small per-slide padding so slide boundaries don’t feel clipped.
-- If you re-run it, it will **reuse** already-generated segment files.
+- The script adds a small per-slide padding so slide boundaries don’t feel clipped (`--padding-seconds`).
+- It will reuse existing slide MP3s **only if** a manifest entry matches the current (voice + slide text) hash and the MP3 exists and is non-empty.
+- To resynthesize everything (e.g., after editing narration), run: `python scripts/video6_tts_segments.py --force`.
 
 ## 4) Generate chapters (optional)
 
