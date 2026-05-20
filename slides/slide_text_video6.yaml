@@ -46,6 +46,15 @@
         `curl -I -H 'Accept-Encoding: identity' https://example.com/page`
     - |
         `curl -I -H 'Accept-Encoding: gzip' https://example.com/page`
+- title: "Command: save & diff headers"
+  bullets:
+    - |
+        `curl -sD en.headers -o /dev/null -H 'Accept-Language: en-US' -H 'Accept-Encoding: identity' https://example.com/page`
+    - |
+        `curl -sD fr.headers -o /dev/null -H 'Accept-Language: fr-FR' -H 'Accept-Encoding: identity' https://example.com/page`
+    - |
+        `diff -u en.headers fr.headers`
+
 - title: Read what changes
   bullets:
     - If ETag or Age differ between requests, you likely hit separate variants

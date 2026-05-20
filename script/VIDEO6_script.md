@@ -32,6 +32,11 @@ curl -I -H 'Accept-Language: fr-FR' https://example.com/page
 # Compression variant probe (explicit is easier to reason about)
 curl -I -H 'Accept-Encoding: identity' https://example.com/page
 curl -I -H 'Accept-Encoding: gzip' https://example.com/page
+
+# Save headers and diff them (repeatable proof)
+curl -sD en.headers -o /dev/null -H 'Accept-Language: en-US' -H 'Accept-Encoding: identity' https://example.com/page
+curl -sD fr.headers -o /dev/null -H 'Accept-Language: fr-FR' -H 'Accept-Encoding: identity' https://example.com/page
+diff -u en.headers fr.headers
 ```
 - If the ETag or Age differs between these requests, you're likely hitting different cached variants. If ETag is same but Age differs wildly, you might be hitting different cache nodes or buckets.
 - Watch for CDN hints (`CF-Cache-Status`, `X-Cache`) changing between header sets. A miss followed by a hit on the second command suggests a separate variant was filled.
