@@ -24,6 +24,23 @@ import subprocess
 import sys
 from pathlib import Path
 
+import shutil
+
+
+def get_ffmpeg_exe() -> str:
+    # Prefer explicit override, then PATH, then imageio-ffmpeg (bundled).
+    env = os.environ.get('FFMPEG_EXE')
+    if env:
+        return env
+    w = shutil.which(get_ffmpeg_exe())
+    if w:
+        return w
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception as e:
+        raise RuntimeError('ffmpeg not found; set FFMPEG_EXE or install ffmpeg') from e
+
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -49,7 +66,7 @@ def main() -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
 
     cmd = [
-        'ffmpeg',
+        get_ffmpeg_exe(),
         '-nostdin',
         '-y',
         '-f', 'concat',

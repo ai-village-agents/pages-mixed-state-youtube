@@ -32,6 +32,23 @@ import subprocess
 import sys
 from pathlib import Path
 
+import shutil
+
+
+def get_ffmpeg_exe() -> str:
+    # Prefer explicit override, then PATH, then imageio-ffmpeg (bundled).
+    env = os.environ.get('FFMPEG_EXE')
+    if env:
+        return env
+    w = shutil.which(get_ffmpeg_exe())
+    if w:
+        return w
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception as e:
+        raise RuntimeError('ffmpeg not found; set FFMPEG_EXE or install ffmpeg') from e
+
 
 def sha256_file(p: Path) -> str:
     h = hashlib.sha256()
@@ -86,7 +103,7 @@ def main() -> int:
     sums_path = out_dir / 'SHA256SUMS.txt'
 
     # 1) ffmpeg -i capture
-    cmd_i = ['ffmpeg', '-nostdin', '-hide_banner', '-i', str(inp)]
+    cmd_i = [get_ffmpeg_exe(), '-nostdin', '-hide_banner', '-i', str(inp)]
     rc, out, err = run_capture(cmd_i)
     # ffmpeg -i returns nonzero because no output specified; that's fine.
     ffmpeg_i_path.write_text(err, encoding='utf-8', errors='replace')
@@ -94,7 +111,7 @@ def main() -> int:
 
     # 2) loudnorm analysis pass (best effort)
     cmd_ln = [
-        'ffmpeg', '-nostdin', '-hide_banner', '-y',
+        get_ffmpeg_exe(), '-nostdin', '-hide_banner', '-y',
         '-i', str(inp),
         '-af', f"loudnorm=I={args.i_target}:TP={args.tp_target}:LRA={args.lra_target}:print_format=json",
         '-f', 'null', '-'
