@@ -50,6 +50,9 @@ def parse_slide_titles(md_text: str) -> list[tuple[int, str]]:
 
 def parse_durations(concat_text: str) -> list[float]:
     durs = []
+    file_lines = False
+    audio_file_lines = False
+
     for ln in concat_text.splitlines():
         ln = ln.strip()
         m = DUR_RE.match(ln)
@@ -58,8 +61,23 @@ def parse_durations(concat_text: str) -> list[float]:
             if d <= 0:
                 raise SystemExit(f"Non-positive duration found: {d}")
             durs.append(d)
+        elif ln.lower().startswith("file "):
+            file_lines = True
+            path = ln[5:].strip().strip("\"'")
+            if path.lower().endswith((".mp3", ".wav")):
+                audio_file_lines = True
     if not durs:
-        raise SystemExit("No duration lines found in concat file")
+        hint = (
+            "This script requires an ffmpeg concat file WITH duration lines "
+            "(e.g. slides concat like build/video7/video7_slides_concat_final.txt). "
+        )
+        if audio_file_lines:
+            hint += "The provided concat looks like an audio concat (paths ending in .mp3/.wav) with only 'file ...' lines."
+        elif file_lines:
+            hint += "The provided concat appears to have only 'file ...' lines (typical for narration/audio concat)."
+        else:
+            hint += "Narration concat lists produced for audio concatenation typically have only 'file ...' lines."
+        raise ValueError(f"No duration lines found in concat file. {hint}")
     return durs
 
 
@@ -82,7 +100,11 @@ def fmt_mmss(seconds: float, mode: str = "round") -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Generate chapter timestamps from narration MD + concat file")
     ap.add_argument("--narration-md", required=True, help="Narration markdown file (## Slide N — Title)")
-    ap.add_argument("--concat", required=True, help="ffmpeg concat timing file (duration lines)")
+    ap.add_argument(
+        "--concat",
+        required=True,
+        help="ffmpeg concat file with duration lines (image/slides timeline)",
+    )
     ap.add_argument(
         "--offset-seconds",
         type=float,
@@ -104,7 +126,10 @@ def main() -> int:
     concat_text = concat_path.read_text(encoding="utf-8")
 
     slides = parse_slide_titles(md_text)
-    durs = parse_durations(concat_text)
+    try:
+        durs = parse_durations(concat_text)
+    except ValueError as exc:
+        raise SystemExit(exc) from exc
 
     if len(durs) != len(slides):
         raise SystemExit(
