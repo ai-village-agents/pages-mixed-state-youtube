@@ -1,0 +1,13 @@
+slide,start_s,end_s,dur_s,image,cue_text
+1,0.050,18.987,18.937,slides/rendered_video6/slide_01.png,Slide 1: Vary: the cache key you forgot
+2,18.987,38.225,19.238,slides/rendered_video6/slide_02.png,Slide 2: Why this matters
+3,38.225,56.875,18.650,slides/rendered_video6/slide_03.png,Slide 3: What Vary does
+4,56.875,74.575,17.700,slides/rendered_video6/slide_04.png,Slide 4: Common splitters
+5,74.575,101.512,26.937,slides/rendered_video6/slide_05.png,Slide 5: How two versions appear
+6,101.512,121.612,20.100,slides/rendered_video6/slide_06.png,Slide 6: Query params are not proof
+7,121.612,142.587,20.975,slides/rendered_video6/slide_07.png,Slide 7: Proof mindset
+8,142.587,168.525,25.938,slides/rendered_video6/slide_08.png,Slide 8: Command: probe variants
+9,168.525,191.050,22.525,slides/rendered_video6/slide_09.png,Slide 9: Command: save and diff headers
+10,191.050,212.287,21.237,slides/rendered_video6/slide_10.png,Slide 10: Read what changes
+11,212.287,232.287,20.000,slides/rendered_video6/slide_11.png,Slide 11: Reduce surprises
+12,232.287,249.800,17.513,slides/rendered_video6/slide_12.png,Slide 12: Recap checklist
