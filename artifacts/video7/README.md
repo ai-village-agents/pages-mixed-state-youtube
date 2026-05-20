@@ -11,3 +11,15 @@ This folder contains lightweight, tracked artifacts for Video 7.
   - Purpose: quick visual scan for slide order, cropping, and obvious rendering glitches.
 
 > Note: intermediate build outputs (audio/video candidates, per-slide frames, etc.) live under `build/` and are gitignored.
+
+## Draft build (local, gitignored)
+As of 2026-05-20, a draft build was generated locally (not committed):
+- `build/video7/video7_upload_candidate_draft.mp4`
+- `build/video7/video7_upload_candidate_draft_loud.mp4` (one-pass loudnorm)
+
+Tracked *proof-of-build* artifacts:
+- `proof_draft/ffmpeg_i_video7_upload_candidate_draft_loud.txt` — `ffmpeg -i` stream summary.
+- `proof_draft/loudnorm_analysis_video7_upload_candidate_draft_loud.json` — loudnorm analysis (`I=-15, TP=-1.5, LRA=11`).
+- `proof_draft/SHA256SUMS.txt` — hashes of the tracked proof artifacts.
+
+Build notes / reproduction: `docs/video7_build.md`.

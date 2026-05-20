@@ -1,0 +1,37 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'build/video7/video7_upload_candidate_draft_loud.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.1.100
+  Duration: 00:02:43.90, start: 0.000000, bitrate: 209 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 46 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.3.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, mono, fltp, 155 kb/s (default)
+      Metadata:
+        handler_name    : SoundHandler
+        vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+  Stream #0:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.1.100
+  Stream #0:0(und): Video: wrapped_avframe, yuv420p(progressive), 1920x1080, q=2-31, 200 kb/s, 30 fps, 30 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.3.100 wrapped_avframe
+  Stream #0:1(und): Audio: pcm_s16le, 48000 Hz, mono, s16, 768 kb/s (default)
+      Metadata:
+        handler_name    : SoundHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.3.100 pcm_s16le
+frame=  409 fps=0.0 q=-0.0 size=N/A time=00:00:13.63 bitrate=N/A speed=27.2x    frame=  817 fps=816 q=-0.0 size=N/A time=00:00:27.23 bitrate=N/A speed=27.2x    frame= 1237 fps=824 q=-0.0 size=N/A time=00:00:41.23 bitrate=N/A speed=27.5x    frame= 1710 fps=854 q=-0.0 size=N/A time=00:00:57.00 bitrate=N/A speed=28.5x    frame= 2083 fps=833 q=-0.0 size=N/A time=00:01:09.43 bitrate=N/A speed=27.8x    frame= 2475 fps=824 q=-0.0 size=N/A time=00:01:22.50 bitrate=N/A speed=27.5x    frame= 2889 fps=825 q=-0.0 size=N/A time=00:01:36.30 bitrate=N/A speed=27.5x    frame= 3324 fps=831 q=-0.0 size=N/A time=00:01:50.80 bitrate=N/A speed=27.7x    frame= 3744 fps=831 q=-0.0 size=N/A time=00:02:04.80 bitrate=N/A speed=27.7x    frame= 4098 fps=819 q=-0.0 size=N/A time=00:02:16.60 bitrate=N/A speed=27.3x    frame= 4444 fps=807 q=-0.0 size=N/A time=00:02:28.13 bitrate=N/A speed=26.9x    frame= 4875 fps=812 q=-0.0 size=N/A time=00:02:42.50 bitrate=N/A speed=27.1x    [out#0/null @ 0x41b5cec0] video:2112KiB audio:15364KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame= 4916 fps=811 q=-0.0 Lsize=N/A time=00:02:43.86 bitrate=N/A speed=  27x    
