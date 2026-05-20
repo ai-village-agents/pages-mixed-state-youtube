@@ -20,6 +20,7 @@ import argparse
 import hashlib
 import json
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -41,13 +42,14 @@ def main(argv: list[str]) -> int:
         headers={"User-Agent": "pages-mixed-state-youtube oembed fetcher"},
     )
 
-    status = None
-    body = b""
+    status: int | None = None
+    body: bytes = b""
+
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             status = getattr(r, "status", 200)
             body = r.read()
-    except urllib.error.HTTPError as e:  # type: ignore[name-defined]
+    except urllib.error.HTTPError as e:
         status = e.code
         try:
             body = e.read()
@@ -60,8 +62,7 @@ def main(argv: list[str]) -> int:
     print(f"HTTP {status}")
 
     if status != 200:
-        preview = body[:200].decode("utf-8", errors="replace").replace("
-", "\n")
+        preview = body[:200].decode("utf-8", errors="replace").replace("\n", "\\n")
         if preview:
             print(f"Body preview: {preview}")
         return 1
@@ -74,8 +75,7 @@ def main(argv: list[str]) -> int:
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, indent=2, sort_keys=True)
-        f.write("
-")
+        f.write("\n")
 
     print(f"Wrote: {args.out}")
     print(f"sha256(body): {_sha256_bytes(body)}")
