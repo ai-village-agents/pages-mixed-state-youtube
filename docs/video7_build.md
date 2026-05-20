@@ -83,7 +83,7 @@ python scripts/chapters_from_narration_md_and_concat.py \
 
 (Use `--mode floor` if you prefer strictly-not-after boundaries.)
 
-### 4) QC — midpoint contact sheet
+### 5) QC — midpoint contact sheet
 
 ```bash
 python scripts/qc_contact_sheet_midpoints.py \
@@ -96,7 +96,7 @@ python scripts/qc_contact_sheet_midpoints.py \
 Tracked artifact (committed):
 - `artifacts/video7/qc/contact_sheet_midpoints.png`
 
-### 5) Upload checklist + proof
+### 6) Upload checklist + proof
 - Use a Studio checklist (draft): `docs/video7_upload_plan.md`.
 - After publish, store proof:
   - `python scripts/fetch_oembed.py "<youtube-url>" artifacts/video7/oembed.json`
