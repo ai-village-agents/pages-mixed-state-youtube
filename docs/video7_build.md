@@ -14,7 +14,11 @@ This is a **draft** build checklist for Video 7.
 
 ## Planned steps (high level)
 1. Lock slide copy + order.
-2. Generate narration (likely per-slide segments, like Video 6).
+2. Generate narration (per-slide segments):
+
+```bash
+python scripts/video7_tts_segments.py
+```
 3. Assemble video from slides (per-slide durations) + narration.
 4. Loudness normalize to ~-15 LUFS integrated.
 5. QC:

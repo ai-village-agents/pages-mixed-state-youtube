@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+"""Generate per-slide edge-tts MP3 segments from script/VIDEO7_narration.md.
+
+Outputs (gitignored):
+- build/video7/segments/slide_01.mp3 .. slide_10.mp3
+- build/video7/video7_narration_brian_final.mp3
+- build/video7/video7_slides_concat_final.txt
+
+Assemble via:
+  python scripts/assemble_from_concat.py --concat build/video7/video7_slides_concat_final.txt \
+    --audio build/video7/video7_narration_brian_final.mp3 --out build/video7/video7_upload_candidate_final.mp4 --baseline
+"""
+
+import asyncio
+import re
+from pathlib import Path
+import subprocess
+
+VOICE = "en-US-BrianNeural"
+MD_PATH = Path("script/VIDEO7_narration.md")
+OUT_DIR = Path("build/video7")
+SEG_DIR = OUT_DIR / "segments"
+
+
+def get_ffmpeg():
+    import imageio_ffmpeg
+    return imageio_ffmpeg.get_ffmpeg_exe()
+
+
+def parse_markdown_slides(md_text: str):
+    parts = re.split(r"^##\s+Slide\s+(\d+)\s+—\s+(.*)$", md_text, flags=re.M)
+    if len(parts) < 4:
+        raise ValueError("Could not parse slides from markdown; expected headings like '## Slide N — ...'")
+
+    slides = []
+    for i in range(1, len(parts), 3):
+        n = int(parts[i])
+        title = parts[i + 1].strip()
+        body = parts[i + 2].strip()
+        slides.append({"n": n, "title": title, "body": body})
+
+    def clean(s: str) -> str:
+        s = re.sub(r"`([^`]*)`", r"\1", s)
+        s = re.sub(r"^#+\s+.*$", "", s, flags=re.M)
+        s = re.sub(r"[ \t]+", " ", s)
+        s = s.replace("—", "-")
+        s = re.sub(r"\n{3,}", "\n\n", s)
+        return s.strip()
+
+    out = []
+    for s in slides:
+        text = clean(s["body"])
+        if not text:
+            raise ValueError(f"Slide {s['n']} has empty body")
+        out.append({"n": s["n"], "title": s["title"], "text": text})
+
+    nums = [s["n"] for s in out]
+    if nums != list(range(1, len(nums) + 1)):
+        raise ValueError(f"Unexpected slide numbering: {nums}")
+
+    return out
+
+
+async def synth_to_mp3(text: str, out_path: Path):
+    import edge_tts
+    communicate = edge_tts.Communicate(text=text, voice=VOICE)
+    await communicate.save(str(out_path))
+
+
+def mp3_duration_seconds(mp3_path: Path) -> float:
+    ffmpeg = get_ffmpeg()
+    p = subprocess.run(
+        [ffmpeg, "-hide_banner", "-nostdin", "-i", str(mp3_path)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    m = re.search(r"Duration:\s*(\d+):(\d+):(\d+\.\d+)", p.stderr)
+    if not m:
+        raise RuntimeError(f"Could not parse duration from ffmpeg output for {mp3_path}\n{p.stderr[:500]}")
+    h = int(m.group(1))
+    mi = int(m.group(2))
+    s = float(m.group(3))
+    return h * 3600 + mi * 60 + s
+
+
+def concat_audio(mp3_paths, out_mp3: Path):
+    ffmpeg = get_ffmpeg()
+    lst = out_mp3.with_suffix(".concat.txt")
+    lines = [f"file '{p.resolve().as_posix()}'" for p in mp3_paths]
+    lst.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    subprocess.check_call(
+        [
+            ffmpeg,
+            "-hide_banner",
+            "-y",
+            "-nostdin",
+            "-f",
+            "concat",
+            "-safe",
+            "0",
+            "-i",
+            str(lst),
+            "-c",
+            "copy",
+            str(out_mp3),
+        ]
+    )
+
+
+def write_slide_concat(slides, durations, out_txt: Path, images_dir: Path):
+    base = Path('.').resolve()
+    lines = []
+    for n, dur in zip([s["n"] for s in slides], durations):
+        img = (base / images_dir / f"slide_{n:02d}.png").resolve()
+        lines.append(f"file '{img.as_posix()}'")
+        lines.append(f"duration {dur:.3f}")
+    last_img = (base / images_dir / f"slide_{slides[-1]['n']:02d}.png").resolve()
+    lines.append(f"file '{last_img.as_posix()}'")
+    out_txt.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+async def main():
+    md = MD_PATH.read_text(encoding="utf-8")
+    slides = parse_markdown_slides(md)
+
+    SEG_DIR.mkdir(parents=True, exist_ok=True)
+
+    mp3s = []
+    for s in slides:
+        out_mp3 = SEG_DIR / f"slide_{s['n']:02d}.mp3"
+        mp3s.append(out_mp3)
+        if out_mp3.exists() and out_mp3.stat().st_size > 0:
+            continue
+        await synth_to_mp3(s["text"], out_mp3)
+
+    durations = [mp3_duration_seconds(p) for p in mp3s]
+
+    full_mp3 = OUT_DIR / "video7_narration_brian_final.mp3"
+    concat_audio(mp3s, full_mp3)
+
+    padded = [d + 0.15 for d in durations]
+    concat_txt = OUT_DIR / "video7_slides_concat_final.txt"
+    write_slide_concat(slides, padded, concat_txt, Path("slides/rendered_video7"))
+
+    total = sum(padded)
+    print("Wrote:")
+    print(" -", full_mp3)
+    print(" -", concat_txt)
+    print("Total padded slide time:", round(total, 3), "seconds")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
