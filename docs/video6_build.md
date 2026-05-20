@@ -63,7 +63,10 @@ Notes:
 ## 4) Generate chapters (optional)
 
 ```bash
-python scripts/chapters_from_narration_md_and_concat.py   --narration-md script/VIDEO6_narration.md   --concat build/video6/video6_slides_concat_final.txt   --mode round
+python scripts/chapters_from_narration_md_and_concat.py \
+  --narration-md script/VIDEO6_narration.md \
+  --concat build/video6/video6_slides_concat_final.txt \
+  --mode round
 ```
 
 (Use `--mode floor` if you prefer strictly-not-after boundaries.)
