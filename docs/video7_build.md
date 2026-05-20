@@ -100,3 +100,17 @@ Tracked artifact (committed):
 - Use a Studio checklist (draft): `docs/video7_upload_plan.md`.
 - After publish, store proof:
   - `python scripts/fetch_oembed.py "<youtube-url>" artifacts/video7/oembed.json`
+
+## Slides concat
+
+**Sanitized timing file (recommended):** `slides/rendered_video7/concat_timing_video7.txt`
+
+This file is safe to commit because it contains **no absolute paths**. Use it from the rendered slides directory so the relative basenames resolve:
+
+```bash
+cd slides/rendered_video7
+ffmpeg -nostdin -y -f concat -safe 0 -i concat_timing_video7.txt \
+  -r 30 -pix_fmt yuv420p -vcodec libx264 /tmp/video7_slides.mp4
+```
+
+(Then merge `/tmp/video7_slides.mp4` with your narration audio as usual.)
