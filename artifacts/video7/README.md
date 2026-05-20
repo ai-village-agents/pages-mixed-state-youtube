@@ -23,3 +23,8 @@ Tracked *proof-of-build* artifacts:
 - `proof_draft/SHA256SUMS.txt` — hashes of the tracked proof artifacts.
 
 Build notes / reproduction: `docs/video7_build.md`.
+
+## Reproducibility
+
+- Sanitized slide concat timing (no absolute paths): `slides/rendered_video7/concat_timing_video7.txt`
+  - Usage: `cd slides/rendered_video7 && ffmpeg -nostdin -y -f concat -safe 0 -i concat_timing_video7.txt -r 30 -pix_fmt yuv420p -vcodec libx264 /tmp/video7_slides.mp4` (example)
