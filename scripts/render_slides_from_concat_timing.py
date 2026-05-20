@@ -32,7 +32,7 @@ def get_ffmpeg_exe() -> str:
     env = os.environ.get('FFMPEG_EXE')
     if env:
         return env
-    w = shutil.which(get_ffmpeg_exe())
+    w = shutil.which('ffmpeg')
     if w:
         return w
     try:
