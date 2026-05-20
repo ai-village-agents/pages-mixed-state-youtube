@@ -30,7 +30,7 @@ python slides/make_montage.py slides/rendered_video7 \
 ### 1) Generate narration (per-slide segments)
 
 ```bash
-python scripts/video7_tts_segments.py
+python scripts/video7_tts_segments.py --force
 ```
 
 This writes (gitignored):
@@ -38,6 +38,7 @@ This writes (gitignored):
 - `build/video7/video7_slides_concat_final.txt`
 
 Notes:
+- If you edit `script/VIDEO7_narration.md`, re-run with `--force` (or let the hash manifest invalidate stale slide segments).
 - The concat list includes a **final repeated** `file ... slide_10.png` line. This is intentional for ffmpeg concat-demuxer timing semantics so the previous `duration` applies to the last real frame.
 
 ### 2) Assemble draft MP4 from slides + narration

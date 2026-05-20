@@ -36,17 +36,16 @@ Tip: if your service-worker script is cached too aggressively, updates can get �
 
 Draft chapter timestamps based on the current slide timing (will change if timings change):
 
-- 0:00 Service Worker: the cache you forgot
-- 0:13 The “old version” bug
-- 0:26 What a SW can do
+- 0:00 Service worker: the cache you forgot
+- 0:13 Why this matters
+- 0:26 What a service worker can do
 - 0:40 How “two versions” happen
-- 0:52 Proof: is a SW controlling this page?
-- 1:09 Proof: does curl bypass SW?
-- 1:23 Fast isolation moves
-- 1:38 Compare variants
-- 1:50 Fix patterns (safer defaults)
-- 2:05 Recap checklist
-
+- 0:52 First proof: is SW in the path?
+- 1:17 CLI vs browser (important)
+- 1:30 Isolate the variable
+- 1:45 Compare variants
+- 1:58 Fix patterns (safer defaults)
+- 2:21 Recap checklist
 ## Tags (draft)
 service worker, service workers, pwa, cache debugging, stale content, old version, deploy not updating, web debugging, devtools, unregister service worker, cache storage
 
