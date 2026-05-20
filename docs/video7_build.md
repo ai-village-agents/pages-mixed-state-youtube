@@ -72,6 +72,17 @@ Draft loudnorm summary (from a sample run):
 - Output integrated: **-15.7 LUFS**
 - Output true peak: **-1.5 dBTP**
 
+### 4) Generate chapters (optional)
+
+```bash
+python scripts/chapters_from_narration_md_and_concat.py \
+  --narration-md script/VIDEO7_narration.md \
+  --concat build/video7/video7_slides_concat_final.txt \
+  --mode round
+```
+
+(Use `--mode floor` if you prefer strictly-not-after boundaries.)
+
 ### 4) QC — midpoint contact sheet
 
 ```bash
