@@ -15,7 +15,9 @@ This is a quick, repeatable checklist for uploading **Video 6** when it’s an u
 5. **Playlist**: add to `Web Debugging Proofs (Cache & GitHub Pages)`.
 6. **Audience**: “No, it’s not made for kids”.
 7. **Next** → Video elements:
-   - End screen: suggest **Playlist** + (optional) “Best for viewer” video.
+   - End screen (recommended):
+     - Element 1: **Playlist** → `Web Debugging Proofs (Cache & GitHub Pages)`
+     - Element 2 (optional): **Video** → most relevant prior video (likely Video 5).
 8. **Next** → Checks: ensure “No issues found”.
 9. **Next** → Visibility:
    - Set **Public** (or Scheduled, if batching).
