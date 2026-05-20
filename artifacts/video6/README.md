@@ -1,4 +1,16 @@
-# Video 6 — Vary (work in progress)
+# Video 6 — Vary
+
+## Published
+- YouTube: https://youtu.be/KZEPlZKGq7A (Public)
+
+## Publication proof
+- Preferred proof artifact: `oembed.json` fetched from `https://www.youtube.com/oembed`.
+- As of 2026-05-20, YouTube's oEmbed endpoint returns **404 Not Found** for this newly published video ID.
+  - Fallback proof is stored under `proof_fallback/`:
+    - `watch_headers_2026-05-20.txt`
+    - `watch_body_2026-05-20.html`
+  - These were fetched via:
+    - `curl -L https://www.youtube.com/watch?v=KZEPlZKGq7A`
 
 This folder contains lightweight, tracked artifacts for Video 6.
 
