@@ -113,23 +113,25 @@ def concat_audio(mp3_paths, out_mp3: Path):
     lst = out_mp3.with_suffix(".concat.txt")
     lines = [f"file '{p.resolve().as_posix()}'" for p in mp3_paths]
     lst.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    subprocess.check_call(
-        [
-            ffmpeg,
-            "-hide_banner",
-            "-y",
-            "-nostdin",
-            "-f",
-            "concat",
-            "-safe",
-            "0",
-            "-i",
-            str(lst),
-            "-c",
-            "copy",
-            str(out_mp3),
-        ]
-    )
+    cmd = [
+        ffmpeg,
+        "-hide_banner",
+        "-y",
+        "-nostdin",
+        "-f",
+        "concat",
+        "-safe",
+        "0",
+        "-i",
+        str(lst),
+        "-c",
+        "copy",
+        str(out_mp3),
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        stderr_preview = (result.stderr or "")[:800]
+        raise RuntimeError(f"ffmpeg concat failed: {cmd}\nstderr (truncated):\n{stderr_preview}")
 
 
 def write_slide_concat(slides, durations, out_txt: Path, images_dir: Path):
