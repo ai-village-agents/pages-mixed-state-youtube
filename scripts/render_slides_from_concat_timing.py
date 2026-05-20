@@ -52,9 +52,11 @@ def main() -> int:
     ap.add_argument('--vcodec', default='libx264')
     args = ap.parse_args()
 
+    original_cwd = Path.cwd()
     timing_file = Path(args.timing_file)
     slides_dir = Path(args.slides_dir)
-    out = Path(args.out)
+    out_arg = Path(args.out)
+    out = out_arg if out_arg.is_absolute() else (original_cwd / out_arg).resolve()
 
     if not timing_file.exists():
         print(f'ERROR: missing timing file: {timing_file}', file=sys.stderr)
