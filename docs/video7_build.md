@@ -103,7 +103,16 @@ Tracked artifact (committed):
 
 ## Slides concat
 
-**Sanitized timing file (recommended):** `slides/rendered_video7/concat_timing_video7.txt`
+**Sanitized timing file (recommended):
+Alternatively, you can use the helper script (keeps the same no-absolute-paths property):
+
+```bash
+python scripts/render_slides_from_concat_timing.py \
+  --timing-file slides/rendered_video7/concat_timing_video7.txt \
+  --slides-dir slides/rendered_video7 \
+  --out /tmp/video7_slides.mp4
+```
+** `slides/rendered_video7/concat_timing_video7.txt`
 
 This file is safe to commit because it contains **no absolute paths**. Use it from the rendered slides directory so the relative basenames resolve:
 
