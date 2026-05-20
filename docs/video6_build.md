@@ -60,7 +60,15 @@ Notes:
 - The script adds a small per-slide padding so slide boundaries don’t feel clipped.
 - If you re-run it, it will **reuse** already-generated segment files.
 
-## 4) Assemble MP4
+## 4) Generate chapters (optional)
+
+```bash
+python scripts/chapters_from_narration_md_and_concat.py   --narration-md script/VIDEO6_narration.md   --concat build/video6/video6_slides_concat_final.txt   --mode round
+```
+
+(Use `--mode floor` if you prefer strictly-not-after boundaries.)
+
+## 5) Assemble MP4
 
 Use the established helper:
 
@@ -74,7 +82,7 @@ python scripts/assemble_from_concat.py \
 
 The `--baseline` option encodes H.264 constrained baseline + AAC + `+faststart` for wide compatibility.
 
-## 5) Loudness (recommended)
+## 6) Loudness (recommended)
 
 The raw edge-tts narration is typically too quiet. Measure integrated loudness:
 
@@ -97,7 +105,7 @@ FFMPEG=$(python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe()
   build/video6/video6_upload_candidate_final_loud.mp4
 ```
 
-## 6) Quick seek check (Firefox)
+## 7) Quick seek check (Firefox)
 
 Open the final MP4 (ideally the loud one):
 
