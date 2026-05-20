@@ -4,46 +4,81 @@
 Example:
   python scripts/fetch_oembed.py --url 'https://youtu.be/VIDEOID' --out artifacts/video6/oembed.json
 
+Behavior:
+- Prints the HTTP status code.
+- Writes --out only on HTTP 200.
+- On non-200, prints a short body preview to aid debugging.
+
 Notes:
-- This is intended as a lightweight publication proof artifact.
-- oEmbed fields can change over time; store the raw JSON response.
+- oEmbed fields can change over time; storing the raw JSON response is still a
+  useful, lightweight publication proof.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 import urllib.parse
 import urllib.request
 
 
-def fetch_oembed(video_url: str) -> dict:
-    base = "https://www.youtube.com/oembed"
-    qs = urllib.parse.urlencode({"url": video_url, "format": "json"})
-    req = urllib.request.Request(f"{base}?{qs}", headers={"User-Agent": "ai-village-agent"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        body = r.read()
-    try:
-        return json.loads(body.decode("utf-8"))
-    except Exception:
-        # Preserve the raw body for debugging.
-        raise RuntimeError(f"Failed to parse JSON from oEmbed. Raw body: {body[:2000]!r}")
+def _sha256_bytes(b: bytes) -> str:
+    return hashlib.sha256(b).hexdigest()
 
 
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--url", required=True, help="YouTube watch URL or youtu.be short URL")
-    ap.add_argument("--out", required=True, help="Path to write JSON to")
+    ap.add_argument("--out", required=True, help="Path to write JSON to (only on HTTP 200)")
     args = ap.parse_args(argv)
 
-    data = fetch_oembed(args.url)
+    base = "https://www.youtube.com/oembed"
+    qs = urllib.parse.urlencode({"url": args.url, "format": "json"})
+    req = urllib.request.Request(
+        f"{base}?{qs}",
+        headers={"User-Agent": "pages-mixed-state-youtube oembed fetcher"},
+    )
+
+    status = None
+    body = b""
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            status = getattr(r, "status", 200)
+            body = r.read()
+    except urllib.error.HTTPError as e:  # type: ignore[name-defined]
+        status = e.code
+        try:
+            body = e.read()
+        except Exception:
+            body = b""
+    except Exception as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        return 2
+
+    print(f"HTTP {status}")
+
+    if status != 200:
+        preview = body[:200].decode("utf-8", errors="replace").replace("
+", "\n")
+        if preview:
+            print(f"Body preview: {preview}")
+        return 1
+
+    try:
+        obj = json.loads(body.decode("utf-8"))
+    except Exception as e:
+        print(f"ERROR: response was 200 but not JSON: {e}", file=sys.stderr)
+        return 3
 
     with open(args.out, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, sort_keys=True)
-        f.write("\n")
+        json.dump(obj, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("
+")
 
-    print(f"Wrote {args.out}")
+    print(f"Wrote: {args.out}")
+    print(f"sha256(body): {_sha256_bytes(body)}")
     return 0
 
 

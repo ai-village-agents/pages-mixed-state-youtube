@@ -31,6 +31,6 @@ This folder contains lightweight, tracked artifacts for Video 6.
 If YouTube’s oEmbed endpoint is temporarily 404 for this video, you can retry later with:
 
 ```bash
-python scripts/fetch_youtube_oembed.py --video-id KZEPlZKGq7A --out artifacts/video6/oembed.json
+python scripts/fetch_oembed.py --url 'https://youtu.be/KZEPlZKGq7A' --out artifacts/video6/oembed.json
 ```
 When it returns HTTP 200, commit `artifacts/video6/oembed.json` as the standard publication proof.
