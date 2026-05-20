@@ -43,7 +43,7 @@
     - |
         `curl -I -H 'Accept-Language: fr-FR' https://example.com/page`
     - |
-        `curl -I --compressed https://example.com/page`
+        `curl -I -H 'Accept-Encoding: identity' https://example.com/page`
     - |
         `curl -I -H 'Accept-Encoding: gzip' https://example.com/page`
 - title: Read what changes

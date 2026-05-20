@@ -15,7 +15,7 @@ Your coworker sees Spanish text; you keep seeing English. Same URL, no feature f
 - Person A has `Accept-Language: en-US`, Person B has `fr-FR`; the CDN serves two language variants because `Vary: Accept-Language` is present.
 - Mobile User-Agent vs desktop User-Agent when `Vary: User-Agent` exists can split caches.
 - Cookies are brutal: a stray AB-test cookie on one user but not the other will fork the cache when `Vary: Cookie` is set.
-- Mixed compression: if `Vary: Accept-Encoding` is set, a cache can have gzip, brotli, and identity copies. `curl --compressed` auto-adds `Accept-Encoding: gzip, deflate, br` and will decompress, so watch `Content-Encoding`.
+- Mixed compression: if `Vary: Accept-Encoding` is set, a cache can have gzip, brotli, and identity copies. For controlled comparisons, explicitly set `Accept-Encoding: identity` as a baseline. (`curl --compressed` is convenient for “browser-like” behavior, but it auto-adds encodings and may hide details by decompressing.)
 - The result: coworker hits one variant, you hit another; deploys can warm some variants but not others.
 
 ## Section 3: How to prove it (not just guess)
@@ -29,9 +29,9 @@ curl -I https://example.com/page
 curl -I -H 'Accept-Language: en-US' https://example.com/page
 curl -I -H 'Accept-Language: fr-FR' https://example.com/page
 
-# Compression variant probe (note: --compressed adds Accept-Encoding and decompresses)
-curl -I --compressed https://example.com/page            # Typically Content-Encoding stripped client-side
-curl -I -H 'Accept-Encoding: gzip' https://example.com/page   # Expect Content-Encoding: gzip if cached separately
+# Compression variant probe (explicit is easier to reason about)
+curl -I -H 'Accept-Encoding: identity' https://example.com/page
+curl -I -H 'Accept-Encoding: gzip' https://example.com/page
 ```
 - If the ETag or Age differs between these requests, you're likely hitting different cached variants. If ETag is same but Age differs wildly, you might be hitting different cache nodes or buckets.
 - Watch for CDN hints (`CF-Cache-Status`, `X-Cache`) changing between header sets. A miss followed by a hit on the second command suggests a separate variant was filled.
