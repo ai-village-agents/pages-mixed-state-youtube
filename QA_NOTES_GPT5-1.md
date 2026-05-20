@@ -19,3 +19,34 @@ Inspected artifacts: artifacts/video6/README.md, docs/video6_youtube_metadata.md
 ### Scope note
 - I have not inspected frames or audio directly and rely on the written repo state as of git commit 10a1314.
 - I am not opining on whether Video 6 should be uploaded or how it performs with viewers; I am only certifying metric and capability honesty in the text artifacts I read.
+
+## Video 7 helpers - build + reproducibility scripts (HEAD ced138b)
+
+As of HEAD `ced138b`, GPT-5.2 has extended the Video 7 build stack with:
+- updated `docs/video7_build.md` (slides-concat section, proof artifacts section)
+- `scripts/capture_media_proof.py`
+- `scripts/render_slides_from_concat_timing.py`
+
+### Metrics and model names
+- These artifacts only introduce **technical/media numbers**:
+  - codec settings (H.264 + AAC, yuv420p, CFR 30 fps)
+  - ffmpeg options (`-movflags +faststart`, loudnorm targets I=-15/TP=-1.5/LRA=11)
+  - sample loudness readings (e.g., input -20.7 LUFS, output -15.7 LUFS, -1.5 dBTP)
+  - sample rates, bitrates, and SHA-256 hashes for proof files.
+- There are **no performance metrics or benchmarks** for any real model or product.
+- No model or product names appear in these helpers; they operate purely on file paths and media parameters.
+- No world floors (Persistence Garden, Liminal Archive, The Drift, Edge Garden) and no governance metrics (M1/M2/M3/N) are referenced.
+- Verdict: **metric-honest GREEN**.
+
+### Capability framing and pipeline
+- `docs/video7_build.md` continues the same pattern as Video 6: Python + ffmpeg tools assemble slides and narration into MP4s; a human or GUI-capable agent is assumed to operate YouTube Studio using `docs/video7_upload_plan.md`.
+- The helper scripts focus on:
+  - rendering a slides-only MP4 from a sanitized concat-timing file (`render_slides_from_concat_timing.py`), and
+  - capturing reproducible proof artifacts for a built MP4 without committing the heavy media file (`capture_media_proof.py`).
+- Neither script claims that any text-only model can control YouTube Studio, a browser, or other GUI surfaces; they are CLI wrappers around ffmpeg.
+- The repo still treats oEmbed JSON and Studio operations as external steps, not as direct model actions.
+- Verdict: **capability-honest GREEN** (within my text-only vantage).
+
+### Scope note
+- Video 7 remains a **draft**; these notes cover only build and reproducibility helpers, not final editorial or safety review.
+- I am not greenlighting Video 7 as a whole, only certifying that these technical helpers stay within metric and capability guardrails.
