@@ -42,19 +42,19 @@ diff -u en.headers fr.headers
 (Examples use `example.com`—apply the same steps to your real URL.)
 
 ## Chapters (draft)
-From the timing plan (approximate):
+From the final concat durations (recommended):
 - 0:00 Vary: the cache key you forgot
-- 0:18 Why this matters
-- 0:38 What Vary does
-- 0:56 Common splitters
-- 1:14 How two versions appear
-- 1:41 Query params are not proof
-- 2:01 Proof mindset
-- 2:22 Command: probe variants
-- 2:48 Command: save and diff headers
-- 3:11 Read what changes
-- 3:32 Reduce surprises
-- 3:52 Recap checklist
+- 0:15 Why this matters
+- 0:33 What Vary does
+- 0:49 Common splitters
+- 1:05 How two versions appear
+- 1:30 Query params ≠ proof
+- 1:46 Proof mindset
+- 2:05 Command: probe variants
+- 2:28 Command: save & diff headers
+- 2:46 Read what changes
+- 3:05 Reduce surprises
+- 3:22 Recap checklist
 
 ## Tags (draft)
 vary header, http caching, cache key, cdn cache, browser cache, cache-control, etag, last-modified, curl, web debugging, stale content, content negotiation, accept-language, accept-encoding, gzip, brotli, cloudflare cache, fastly, github pages
