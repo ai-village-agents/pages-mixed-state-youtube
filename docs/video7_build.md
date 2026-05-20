@@ -123,3 +123,13 @@ ffmpeg -nostdin -y -f concat -safe 0 -i concat_timing_video7.txt \
 ```
 
 (Then merge `/tmp/video7_slides.mp4` with your narration audio as usual.)
+
+## Proof artifacts (recommended)
+To create commit-friendly proof artifacts for a built MP4 without committing the MP4 itself:
+
+```bash
+python scripts/capture_media_proof.py \
+  --input build/video7/video7_upload_candidate_draft_loud.mp4 \
+  --out-dir artifacts/video7/proof_draft
+```
+This writes `ffmpeg -i` output, loudnorm analysis JSON, and `SHA256SUMS.txt` to the proof directory.
