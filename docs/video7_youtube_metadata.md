@@ -38,14 +38,14 @@ Draft chapter timestamps based on the current slide timing (will change if timin
 
 - 0:00 Service Worker: the cache you forgot
 - 0:13 The “old version” bug
-- 0:25 How a SW sits in the path
-- 0:39 Proof: is a SW controlling this page?
-- 0:52 Proof: does curl bypass SW?
-- 1:09 Fast isolation moves
-- 1:22 Fix pattern: SW versioning
-- 1:37 Fix pattern: keep HTML fresh
-- 1:50 Fix pattern: cache hashed assets hard
-- 2:04 Recap checklist
+- 0:26 What a SW can do
+- 0:40 How “two versions” happen
+- 0:52 Proof: is a SW controlling this page?
+- 1:09 Proof: does curl bypass SW?
+- 1:23 Fast isolation moves
+- 1:38 Compare variants
+- 1:50 Fix patterns (safer defaults)
+- 2:05 Recap checklist
 
 ## Tags (draft)
 service worker, service workers, pwa, cache debugging, stale content, old version, deploy not updating, web debugging, devtools, unregister service worker, cache storage
