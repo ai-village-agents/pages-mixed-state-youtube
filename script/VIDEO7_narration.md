@@ -39,6 +39,7 @@ Exact wording varies by browser.
 
 And in the Console, check whether the page is controlled.
 For example, run `navigator.serviceWorker.controller` — if it’s non-null, a service worker is controlling this page.
+If it’s null, there may still be a service worker registered, but it’s not controlling this tab.
 
 ## Slide 6 — CLI vs browser (important)
 This is an easy trap:
@@ -52,7 +53,7 @@ Treat it as a strong clue.
 ## Slide 7 — Isolate the variable
 Now isolate.
 
-Try a private window — it often starts with less service-worker state.
+Try a different browser profile — a private window is one option to reduce service-worker state without assuming it disappears.
 
 If you have access, unregister the service worker and hard reload.
 And if your DevTools supports it, use a “bypass service worker” setting.

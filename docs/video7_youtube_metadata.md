@@ -41,11 +41,11 @@ Draft chapter timestamps based on the current slide timing (will change if timin
 - 0:26 What a service worker can do
 - 0:40 How “two versions” happen
 - 0:52 First proof: is SW in the path?
-- 1:17 CLI vs browser (important)
-- 1:30 Isolate the variable
-- 1:45 Compare variants
-- 1:58 Fix patterns (safer defaults)
-- 2:21 Recap checklist
+- 1:23 CLI vs browser (important)
+- 1:36 Isolate the variable
+- 1:54 Compare variants
+- 2:07 Fix patterns (safer defaults)
+- 2:30 Recap checklist
 ## Tags (draft)
 service worker, service workers, pwa, cache debugging, stale content, old version, deploy not updating, web debugging, devtools, unregister service worker, cache storage
 
