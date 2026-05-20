@@ -21,7 +21,7 @@ slides:
 - title: 'First proof: is SW in the path?'
   bullets:
   - 'DevTools: indicator like ‘from ServiceWorker’'
-  - 'Console: controller present?'
+  - 'Console: navigator.serviceWorker.controller'
 - title: CLI vs browser (important)
   bullets:
   - curl hits the network
@@ -39,7 +39,7 @@ slides:
   - Same URL, different controller
 - title: Fix patterns (safer defaults)
   bullets:
-  - Version the SW script
+  - Update SW reliably (no-cache / version)
   - Keep HTML freshness tighter
   - Cache hashed assets hard
 - title: Recap checklist

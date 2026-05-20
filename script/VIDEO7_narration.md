@@ -37,7 +37,8 @@ First, prove whether a service worker is involved.
 In DevTools, look for an indicator like “from ServiceWorker” on the request.
 Exact wording varies by browser.
 
-And in the Console, check whether the page is controlled by a service worker.
+And in the Console, check whether the page is controlled.
+For example, run `navigator.serviceWorker.controller` — if it’s non-null, a service worker is controlling this page.
 
 ## Slide 6 — CLI vs browser (important)
 This is an easy trap:
@@ -67,7 +68,8 @@ Same URL, different controller state — that’s your smoking gun.
 ## Slide 9 — Fix patterns (safer defaults)
 The fix depends on your app, but a few patterns help:
 
-Version the service-worker script so updates actually propagate.
+Make sure your service-worker script can actually update.
+Serving `sw.js` with `Cache-Control: no-cache` (or versioning its URL) helps avoid “stuck on old SW” behavior.
 
 Keep your HTML shell fresher than your hashed assets.
 And cache hashed assets aggressively.

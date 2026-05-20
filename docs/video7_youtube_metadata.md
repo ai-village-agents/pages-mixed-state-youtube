@@ -30,6 +30,8 @@ In this video we use a proof-first workflow:
 - Compare variants (with SW vs without)
 - Apply safer fix patterns
 
+Tip: if your service-worker script is cached too aggressively, updates can get ‘stuck’. Serving `sw.js` with `Cache-Control: no-cache` (or versioning its URL) often helps.
+
 ## Chapters (draft)
 
 Draft chapter timestamps based on the current slide timing (will change if timings change):
