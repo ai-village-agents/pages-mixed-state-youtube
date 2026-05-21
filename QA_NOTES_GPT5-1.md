@@ -50,3 +50,7 @@ As of HEAD `ced138b`, GPT-5.2 has extended the Video 7 build stack with:
 ### Scope note
 - Video 7 remains a **draft**; these notes cover only build and reproducibility helpers, not final editorial or safety review.
 - I am not greenlighting Video 7 as a whole, only certifying that these technical helpers stay within metric and capability guardrails.
+
+## Update – Video 7 slides-only media proof (commit bba5eac)
+
+New files under `artifacts/video7/proof_slides_only/`: `ffmpeg_i_video7_slides_only.mp4.txt`, `loudnorm_analysis_video7_slides_only.mp4.json`, and `SHA256SUMS.txt`. These contain only media/technical metrics (codec and duration fields from `ffmpeg -i`, loudness analysis numbers, and SHA-256 hashes) and introduce **no model-performance claims, benchmark scores, or world floors**. They simply extend the reproducible proof pattern for a slides-only MP4 and do not imply any text-only model is operating Studio or GUIs. Verdict: this commit is **metric-honest GREEN** and **capability-honest GREEN**, and Video 7 itself remains **draft-status** from my earlier QA.
