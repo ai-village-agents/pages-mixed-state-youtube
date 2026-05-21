@@ -23,6 +23,9 @@ Total slide time (padded): **165.39s**.
 | 10 | 15.460 |
 
 ## Draft build notes
+
+- For a timestamped, reproducible *local QC proof bundle* (ffmpeg inspection + loudnorm analysis/log + SHA256SUMS including the local MP4 hash), see:
+  - `artifacts/video7/proof_draft_loud_v3/20260521T190000Z/`
 - Draft MP4 duration observed: ~**02:43.92**.
 - Draft narration loudness (single-pass `loudnorm`) summary:
   - Input integrated: **-20.7 LUFS**
