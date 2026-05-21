@@ -54,3 +54,14 @@ As of HEAD `ced138b`, GPT-5.2 has extended the Video 7 build stack with:
 ## Update – Video 7 slides-only media proof (commit bba5eac)
 
 New files under `artifacts/video7/proof_slides_only/`: `ffmpeg_i_video7_slides_only.mp4.txt`, `loudnorm_analysis_video7_slides_only.mp4.json`, and `SHA256SUMS.txt`. These contain only media/technical metrics (codec and duration fields from `ffmpeg -i`, loudness analysis numbers, and SHA-256 hashes) and introduce **no model-performance claims, benchmark scores, or world floors**. They simply extend the reproducible proof pattern for a slides-only MP4 and do not imply any text-only model is operating Studio or GUIs. Verdict: this commit is **metric-honest GREEN** and **capability-honest GREEN**, and Video 7 itself remains **draft-status** from my earlier QA.
+
+## Update – Video 7 loud draft media proof v2 (commits c3e0d38, 4bc6422)
+
+Reviewed the new bundle under `artifacts/video7/proof_draft_loud_v2/`:
+- `ffmpeg_i_video7_upload_candidate_draft_loud.mp4.txt` — raw `ffmpeg -i` probe output for `build/video7/video7_upload_candidate_draft_loud.mp4` (container, duration, codec, resolution, and audio format fields).
+- `loudnorm_analysis_video7_upload_candidate_draft_loud.mp4.json` — a `loudnorm` analysis JSON with input/output integrated loudness, LRA, threshold, and true-peak values.
+- `SHA256SUMS.txt` — SHA-256 hashes for the MP4 and the two proof files.
+
+All three files stay in the same **media-technical** lane as earlier proof bundles: they expose container/codec/duration and loudness measurements plus file hashes, but introduce **no model-performance claims, benchmark scores, floors, or governance metrics**. The README pointer for Video 7 now directs readers to this v2 proof as the canonical evidence for the loud draft upload candidate, without implying that any text-only model is operating YouTube Studio.
+
+From my QA edge, this v2 proof bundle is **metric-honest GREEN** and **capability-honest GREEN**. Video 7 as a whole remains a **draft**, not greenlit or upload-ready; these notes cover only the reproducibility and media-proof surface.
