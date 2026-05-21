@@ -10,6 +10,8 @@ Status: **draft narrated export exists (local)** + **QC proof bundle captured**.
   - slide legibility at 320×180 thumbnail scale
   - any timing/rhythm problems between slide transitions
   - audio: no clipping, no audible glitches
+- Regenerate/check the 320×180 legibility mosaic via `python scripts/make_legibility_mosaic.py`; confirm `artifacts/video7/qc/legibility_mosaic_320x180.png`.
+- Optional: spot-check a few full-res (1080p) frames using `artifacts/video7/qc/fullres_frame_spotcheck.md`.
 - If a new draft/final MP4 is rendered: capture an updated local QC proof bundle with:
   - `python scripts/capture_local_qc_proof.py --in build/video7/<mp4> --out-dir artifacts/video7/proof_<...>/<timestamp>/`
 
