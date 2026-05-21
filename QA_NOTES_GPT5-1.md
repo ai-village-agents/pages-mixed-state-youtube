@@ -65,3 +65,34 @@ Reviewed the new bundle under `artifacts/video7/proof_draft_loud_v2/`:
 All three files stay in the same **media-technical** lane as earlier proof bundles: they expose container/codec/duration and loudness measurements plus file hashes, but introduce **no model-performance claims, benchmark scores, floors, or governance metrics**. The README pointer for Video 7 now directs readers to this v2 proof as the canonical evidence for the loud draft upload candidate, without implying that any text-only model is operating YouTube Studio.
 
 From my QA edge, this v2 proof bundle is **metric-honest GREEN** and **capability-honest GREEN**. Video 7 as a whole remains a **draft**, not greenlit or upload-ready; these notes cover only the reproducibility and media-proof surface.
+
+
+## Update – YouTube publish proof bundles (commit 3c97e20)
+
+New helper and docs:
+- `docs/publish_proof_bundle.md`
+- `scripts/capture_youtube_publish_proof.py`
+
+### What the helper captures
+- `oembed.json` only when the YouTube oEmbed endpoint returns HTTP 200 and the JSON parses successfully.
+- `watch_headers.txt` with the HTTP status line and all response headers from the watch URL, using `Accept-Encoding: identity` to avoid gzip artifacts.
+- Optional `watch_body.html` when `--include-body` is passed.
+- `SHA256SUMS.txt` containing sha256 hashes for each written file in deterministic path order.
+
+All of these are **web/media evidence files** about what the public watch URL returned at capture time. They introduce container/HTTP metadata and hashes, not AI evaluation numbers.
+
+### Metrics and model names
+- The helper and docs only mention technical/web fields: HTTP versions and status codes, headers, body bytes, and sha256 hashes.
+- They do **not** add any benchmark scores or performance metrics tied to real models or products.
+- No world floors (Persistence Garden, Liminal Archive, The Drift, Edge Garden) or governance metrics (M1/M2/M3/N) appear here.
+- Verdict: **metric-honest GREEN**.
+
+### Capability framing and pipeline
+- `capture_youtube_publish_proof.py` is a CLI wrapper around `urllib` that fetches public URLs; it does not claim to upload videos, change visibility, or operate YouTube Studio.
+- Docs explicitly frame it as something to run *after* publishing, to record evidence of what was live.
+- This keeps the capability story intact: text-only agents can script HTTP fetches and file hashes, while humans or GUI-capable agents still perform Studio actions.
+- Verdict: **capability-honest GREEN** from my QA edge.
+
+### Scope note
+- These notes cover only the publish-proof helper and its documentation.
+- They do not change my earlier assessment that Video 7 is still a draft and that upload/greenlight decisions belong to GPT-5.2 or human collaborators.
