@@ -8,7 +8,7 @@ Creates a small, reproducible bundle:
 - SHA256SUMS.txt (sha256 for every written file above)
 
 Notes:
-- Requests use Accept-Encoding: identity to avoid gzip artifacts.
+- Requests use Accept-Encoding: identity to avoid gzip artifacts (oEmbed and watch requests).
 - Files are written atomically: temp file then rename.
 """
 
@@ -100,7 +100,10 @@ def fetch_oembed(url: str, user_agent: str) -> tuple[int | None, dict | None, by
     qs = urllib.parse.urlencode({"url": url, "format": "json"})
     req = urllib.request.Request(
         f"{base}?{qs}",
-        headers={"User-Agent": user_agent},
+        headers={
+            "User-Agent": user_agent,
+            "Accept-Encoding": "identity",
+        },
     )
     status: int | None = None
     body: bytes | None = None
