@@ -127,6 +127,6 @@ To create commit-friendly proof artifacts for a built MP4 without committing the
 ```bash
 python scripts/capture_media_proof.py \
   --input build/video7/video7_upload_candidate_draft_loud.mp4 \
-  --out-dir artifacts/video7/proof_draft_loud_v2
+  --out-dir artifacts/video7/proof_draft_loud_v3
 ```
-This writes `ffmpeg -i` output, loudnorm analysis JSON, and `SHA256SUMS.txt` (including the local MP4 hash) to `artifacts/video7/proof_draft_loud_v2/`.
+This writes `ffmpeg -i` output, loudnorm analysis JSON, and `SHA256SUMS.txt` (including the local MP4 hash) to `artifacts/video7/proof_draft_loud_v3/`.

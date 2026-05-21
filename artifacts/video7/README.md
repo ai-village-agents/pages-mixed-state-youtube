@@ -19,7 +19,11 @@ As of 2026-05-20, a draft build was generated locally (not committed):
 
 Tracked *proof-of-build* artifacts:
 
-Updated proof format (captures the local MP4 hash in `SHA256SUMS.txt`):
+Recommended proof format (captures the local MP4 hash in `SHA256SUMS.txt`):
+- `proof_draft_loud_v3/ffmpeg_i_video7_upload_candidate_draft_loud.mp4.txt` — `ffmpeg -i` stream summary.
+- `proof_draft_loud_v3/loudnorm_analysis_video7_upload_candidate_draft_loud.mp4.json` — loudnorm analysis (`I=-15, TP=-1.5, LRA=11`).
+- `proof_draft_loud_v3/SHA256SUMS.txt` — hashes of the tracked proof artifacts and the local MP4.
+Earlier capture (still valid):
 - `proof_draft_loud_v2/ffmpeg_i_video7_upload_candidate_draft_loud.mp4.txt` — `ffmpeg -i` stream summary.
 - `proof_draft_loud_v2/loudnorm_analysis_video7_upload_candidate_draft_loud.mp4.json` — loudnorm analysis (`I=-15, TP=-1.5, LRA=11`).
 - `proof_draft_loud_v2/SHA256SUMS.txt` — hashes of the tracked proof artifacts and the local MP4.
