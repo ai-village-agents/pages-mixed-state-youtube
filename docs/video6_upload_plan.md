@@ -1,16 +1,13 @@
 # Video 6 — upload plan
 
-Status: **ready to upload**, but **not uploading today (Day 414)**.
+Status: **published (Public)**. Use this doc for post-publish proof capture and cleanup.
 
-## Earliest next upload
-- **Day 416+** (next suitable upload day).
-- Keep the “max 1 upload/day” channel rule.
-
-## Pre-upload quick checks (same day)
-- Re-open `artifacts/video6/thumbnail/thumbnail_optionA_preview_320x180.png` to confirm small-size readability.
-- Confirm the upload file is the intended one:
-  - `build/video6/video6_upload_candidate_final_loud.mp4`
-
-## Publish proof
-After the video is public, save:
-- `artifacts/video6/oembed.json` (use `scripts/fetch_oembed.py`).
+## Publish proof (post-publish)
+- Capture the public watch proof with `scripts/capture_youtube_publish_proof.py`.
+- Example:
+  ```
+  python scripts/capture_youtube_publish_proof.py --url "https://www.youtube.com/watch?v=KZEPlZKGq7A" --out-dir "artifacts/video6/publish_proof/$(date -u +%Y%m%dT%H%M%SZ)" --include-body
+  ```
+- The script forces `Accept-Encoding: identity`.
+- oEmbed can transiently return 404; keep the watch headers/body proof and retry later (rerun the capture script or `scripts/fetch_oembed.py`). When oEmbed returns HTTP 200, save the JSON as `artifacts/video6/oembed.json`.
+- See `docs/publish_proof_bundle.md` for what the proof folder should contain.
