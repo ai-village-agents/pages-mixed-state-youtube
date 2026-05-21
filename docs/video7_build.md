@@ -98,8 +98,17 @@ Tracked artifact (committed):
 
 ### 6) Upload checklist + proof
 - Use a Studio checklist (draft): `docs/video7_upload_plan.md`.
-- After publish, store proof:
-  - `python scripts/fetch_oembed.py "<youtube-url>" artifacts/video7/oembed.json`
+- After publish, capture proof (proof-first):
+
+```bash
+python scripts/capture_youtube_publish_proof.py \
+  --url "<youtube-watch-url>" \
+  --out-dir artifacts/video7/publish_proof/<timestamp> \
+  --include-body
+```
+
+- The capture script sends `Accept-Encoding: identity` internally so responses stay inspectable.
+- oEmbed can 404 briefly after publish; retry later (re-run the capture script or use `scripts/fetch_oembed.py` directly).
 
 ## Slides concat (sanitized timing)
 
