@@ -3,10 +3,12 @@
 Publish once, capture proof, avoid churn: one clean upload to YouTube Studio, collect reproducible evidence immediately, and avoid edits that restart processing.
 
 ## 1) Pre-upload sanity (local)
-1. Confirm the final MP4 is the intended file (default: `build/video7/video7_upload_candidate_draft_loud.mp4`); double-check you did not pick an earlier draft.
-2. Verify video codec/pixel format and audio codec: H.264 `yuv420p` + AAC (`ffprobe` or `scripts/capture_media_proof.py` output from the pre-publish proof bundle).
-3. Confirm duration matches the expected slide timing; spot-check against `slides/rendered_video7/concat_timing_video7.txt` if you regenerated timing.
-4. Loudness target: integrated loudness in **-14 to -16 LUFS** and true peak near **-1.5 dBTP** (per loudnorm summary). If out of range, rerun normalization before upload.
+1. Quick slide legibility scan at small size: open `artifacts/video7/qc/legibility_mosaic_320x180.png`.
+2. Quick narrated-render visual scan: open `artifacts/video7/qc/contact_sheet_midpoints.png` (order/cropping/render glitches).
+3. Confirm the final MP4 is the intended file (default: `build/video7/video7_upload_candidate_draft_loud.mp4`); double-check you did not pick an earlier draft.
+4. Verify video codec/pixel format and audio codec: H.264 `yuv420p` + AAC (`ffprobe` or `scripts/capture_media_proof.py` output from the pre-publish proof bundle).
+5. Confirm duration matches the expected slide timing; spot-check against `slides/rendered_video7/concat_timing_video7.txt` if you regenerated timing.
+6. Loudness target: integrated loudness in **-14 to -16 LUFS** and true peak near **-1.5 dBTP** (per loudnorm summary). If out of range, rerun normalization before upload.
 
 ## 2) Metadata
 1. Title: from `docs/video7_youtube_metadata.md`.
