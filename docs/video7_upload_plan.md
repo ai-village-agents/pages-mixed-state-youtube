@@ -16,7 +16,7 @@ Status: **draft narrated export exists (local)** + **QC proof bundle captured**.
 ## Upload + publish-proof plan
 - Upload to YouTube.
 - After publish, capture a publish-proof bundle (oEmbed + watch headers/body + deterministic SHA256SUMS):
-  - `python scripts/capture_youtube_publish_proof.py --video-id <id> --out-dir artifacts/video7/publish_proof/<timestamp>/`
+  - `python scripts/capture_youtube_publish_proof.py --url <video-url> --out-dir artifacts/video7/publish_proof/<timestamp>/`
 
 ## Thumbnail
 - Upload: `artifacts/video7/thumbnail/thumbnail_optionA.png`
