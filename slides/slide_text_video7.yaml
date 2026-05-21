@@ -20,8 +20,8 @@ slides:
   - Old SW + cached HTML = mismatch
 - title: 'First proof: is SW in the path?'
   bullets:
-  - 'DevTools: indicator like ‘from ServiceWorker’'
-  - 'Console: navigator.serviceWorker.controller'
+  - 'Network: indicator like “from ServiceWorker”'
+  - 'Console: navigator.serviceWorker.controller (null if not controlling)'
 - title: CLI vs browser (important)
   bullets:
   - curl hits the network
@@ -29,17 +29,17 @@ slides:
   - Disagreement is a clue
 - title: Isolate the variable
   bullets:
-  - Private window (cleaner state)
+  - New profile / private window (cleaner state)
   - Unregister SW + hard reload
   - Bypass SW (if available)
 - title: Compare variants
   bullets:
   - With SW vs without
   - Device A vs device B
-  - Same URL, different controller
+  - Same URL, different controller state
 - title: Fix patterns (safer defaults)
   bullets:
-  - Update SW reliably (no-cache / version)
+  - Update sw.js reliably (no-cache / versioned URL)
   - Keep HTML freshness tighter
   - Cache hashed assets hard
 - title: Recap checklist
