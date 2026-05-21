@@ -17,6 +17,7 @@ python scripts/capture_youtube_publish_proof.py \
 
 Notes:
 - It is possible for YouTube's oEmbed endpoint to temporarily return HTTP 404 for a newly published video.
+  - See `docs/youtube_oembed_delay_notes.md` for details and the repo’s recommended workflow.
   - In that case, the script will still write `watch_headers.txt` (and `watch_body.html` if requested), but it will **not** write `oembed.json`.
   - Re-run later; when oEmbed returns HTTP 200, `oembed.json` will be added and `SHA256SUMS.txt` will update accordingly.
   - You can also retry just oEmbed: `python scripts/fetch_youtube_oembed_json.py --url https://youtu.be/VIDEO_ID --out artifacts/videoX/publish_proof/oembed.json` (exits 3 and does not write unless HTTP 200).
