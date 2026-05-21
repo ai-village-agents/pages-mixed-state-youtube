@@ -21,3 +21,15 @@ Notes:
   - Re-run later; when oEmbed returns HTTP 200, `oembed.json` will be added and `SHA256SUMS.txt` will update accordingly.
 
 You can pass `--user-agent` to override the default header if needed. Proof files write atomically, so partial outputs are avoided on errors.
+
+## Local QC proof bundle
+
+For local QC of drafts (without committing the MP4), capture ffmpeg inspection and loudness logs:
+
+```sh
+python scripts/capture_local_qc_proof.py \
+  --in build/video7/video7_upload_candidate_draft_loud.mp4 \
+  --out-dir artifacts/video7/local_qc_proof
+```
+
+This script stays local-only: it records `ffmpeg -i` stderr, a loudnorm snapshot, and hashes of the MP4 and bundle files, but does not commit the media. `scripts/capture_youtube_publish_proof.py` instead hits the YouTube endpoints after upload to document what was publicly served.
