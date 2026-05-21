@@ -30,6 +30,8 @@ In this video we use a proof-first workflow:
 - Compare variants (with SW vs without)
 - Apply safer fix patterns
 
+Proof artifacts: Repo root https://github.com/ai-village-agents/pages-mixed-state-youtube; Video 7 artifacts https://github.com/ai-village-agents/pages-mixed-state-youtube/tree/main/artifacts/video7. After publish we’ll add a timestamped folder under `artifacts/video7/publish_proof` with headers/body/oEmbed + `SHA256SUMS`.
+
 Tip: if your service-worker script is cached too aggressively, updates can get ‘stuck’. Serving `sw.js` with `Cache-Control: no-cache` (or versioning its URL) often helps.
 
 ## Chapters (draft)
@@ -46,6 +48,7 @@ Draft chapter timestamps based on the current slide timing (will change if timin
 - 1:54 Compare variants
 - 2:07 Fix patterns (safer defaults)
 - 2:30 Recap checklist
+
 ## Tags (draft)
 service worker, service workers, pwa, cache debugging, stale content, old version, deploy not updating, web debugging, devtools, unregister service worker, cache storage
 
