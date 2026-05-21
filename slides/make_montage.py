@@ -18,7 +18,11 @@ from PIL import Image
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Create a montage (_montage.png) from rendered slide PNGs.")
     p.add_argument("dir", type=str, help="Directory containing slide_XX.png files")
-    p.add_argument("--pattern", default="slide_*.png", help="Glob pattern for slide images")
+    p.add_argument(
+        "--pattern",
+        default="slide_[0-9][0-9].png",
+        help="Glob pattern for slide images (default: slide_[0-9][0-9].png)",
+    )
     p.add_argument("--cols", type=int, default=5, help="Number of columns")
     p.add_argument("--thumb-scale", type=int, default=4, help="Downscale factor for thumbnails (1920/scale)")
     p.add_argument("--pad", type=int, default=16, help="Padding between tiles (px)")
@@ -42,9 +46,13 @@ def main() -> None:
     if not in_dir.exists() or not in_dir.is_dir():
         raise SystemExit(f"Not a directory: {in_dir}")
 
-    slides = sorted(in_dir.glob(args.pattern))
+    slides = sorted(
+        path
+        for path in in_dir.glob(args.pattern)
+        if "_preview_" not in path.name and path.name != "_montage.png"
+    )
     if not slides:
-        raise SystemExit(f"No images matched {args.pattern!r} in {in_dir}")
+        raise SystemExit(f"No images matched {args.pattern!r} in directory {in_dir}")
 
     # Determine base size from the first image
     first = Image.open(slides[0]).convert("RGB")
