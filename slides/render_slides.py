@@ -184,13 +184,19 @@ def load_slides(path: Path) -> List[dict]:
     return slides
 
 
-def build_fonts() -> dict:
+def build_fonts(
+    title_size: int = 70,
+    body_size: int = 40,
+    code_size: int = 34,
+    note_size: int = 28,
+    footer_size: int = 26,
+) -> dict:
     return {
-        "title": choose_font(REGULAR_FONT_CANDIDATES, 70),
-        "body": choose_font(REGULAR_FONT_CANDIDATES, 40),
-        "code": choose_font(MONO_FONT_CANDIDATES, 34),
-        "note": choose_font(ITALIC_FONT_CANDIDATES, 28),
-        "footer": choose_font(REGULAR_FONT_CANDIDATES, 26),
+        "title": choose_font(REGULAR_FONT_CANDIDATES, title_size),
+        "body": choose_font(REGULAR_FONT_CANDIDATES, body_size),
+        "code": choose_font(MONO_FONT_CANDIDATES, code_size),
+        "note": choose_font(ITALIC_FONT_CANDIDATES, note_size),
+        "footer": choose_font(REGULAR_FONT_CANDIDATES, footer_size),
     }
 
 
@@ -199,6 +205,11 @@ def main() -> None:
     parser.add_argument("--input", default="slides/slide_text.yaml", help="Path to slide_text.yaml")
     parser.add_argument("--limit", type=int, default=None, help="Render only the first N slides")
     parser.add_argument("--output-dir", default="slides", help="Directory to write PNG slides")
+    parser.add_argument("--title-size", type=int, default=70, help="Font size for titles")
+    parser.add_argument("--body-size", type=int, default=40, help="Font size for bullets/body text")
+    parser.add_argument("--code-size", type=int, default=34, help="Font size for code blocks")
+    parser.add_argument("--note-size", type=int, default=28, help="Font size for notes")
+    parser.add_argument("--footer-size", type=int, default=26, help="Font size for footer text")
     args = parser.parse_args()
 
     slide_path = Path(args.input)
@@ -207,7 +218,13 @@ def main() -> None:
     slides = load_slides(slide_path)
     if args.limit is not None:
         slides = slides[: args.limit]
-    fonts = build_fonts()
+    fonts = build_fonts(
+        title_size=args.title_size,
+        body_size=args.body_size,
+        code_size=args.code_size,
+        note_size=args.note_size,
+        footer_size=args.footer_size,
+    )
     total = len(slides)
 
     for idx, slide in enumerate(slides, start=1):
