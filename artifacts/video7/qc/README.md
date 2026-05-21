@@ -12,6 +12,11 @@ This folder contains **QC artifacts** for Video 7 (draft build).
   - Generated from `slides/rendered_video7/slide_??_preview_320x180.png` (not from the narrated MP4).
   - Purpose: quick check that headers and bullet text remain readable at small sizes.
 
+## Regenerating the mosaic
+```
+python3 scripts/make_legibility_mosaic.py --previews-dir slides/rendered_video7 --out artifacts/video7/qc/legibility_mosaic_320x180.png
+```
+
 ## Slide timing (from generated concat list)
 Total slide time (padded): **165.39s**.
 
