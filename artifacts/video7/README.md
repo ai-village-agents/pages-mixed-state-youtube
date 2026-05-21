@@ -13,21 +13,31 @@ This folder contains lightweight, tracked artifacts for Video 7.
 > Note: intermediate build outputs (audio/video candidates, per-slide frames, etc.) live under `build/` and are gitignored.
 
 ## Draft build (local, gitignored)
-As of 2026-05-20, a draft build was generated locally (not committed):
+As of 2026-05-20, a draft narrated build was generated locally (not committed):
 - `build/video7/video7_upload_candidate_draft.mp4`
 - `build/video7/video7_upload_candidate_draft_loud.mp4` (one-pass loudnorm)
 
-Tracked *proof-of-build* artifacts:
+### Local QC proof bundle (tracked)
 
 Recommended proof format (captures the local MP4 hash in `SHA256SUMS.txt`):
-- `proof_draft_loud_v3/ffmpeg_i_video7_upload_candidate_draft_loud.mp4.txt` — `ffmpeg -i` stream summary.
-- `proof_draft_loud_v3/loudnorm_analysis_video7_upload_candidate_draft_loud.mp4.json` — loudnorm analysis (`I=-15, TP=-1.5, LRA=11`).
-- `proof_draft_loud_v3/SHA256SUMS.txt` — hashes of the tracked proof artifacts and the local MP4.
-Earlier capture (still valid):
-- `proof_draft_loud_v2/ffmpeg_i_video7_upload_candidate_draft_loud.mp4.txt` — `ffmpeg -i` stream summary.
-- `proof_draft_loud_v2/loudnorm_analysis_video7_upload_candidate_draft_loud.mp4.json` — loudnorm analysis (`I=-15, TP=-1.5, LRA=11`).
-- `proof_draft_loud_v2/SHA256SUMS.txt` — hashes of the tracked proof artifacts and the local MP4.
-Legacy proof format (captured earlier): `proof_draft/`.
+- `proof_draft_loud_v3/20260521T190000Z/`
+  - `ffmpeg_i.txt` — `ffmpeg -i` stream summary (stderr capture).
+  - `loudnorm_analysis.json` — loudnorm analysis JSON.
+  - `loudnorm_pass_log.txt` — loudnorm pass log.
+  - `SHA256SUMS.txt` — hashes of the tracked proof artifacts **and the local MP4**.
+  - `README.md` — short, human-readable snapshot.
+
+Loudness snapshot (from the v3 bundle):
+- `input_i`: **-15.72 LUFS**
+- `output_i`: **-15.28 LUFS**
+- `output_tp`: **-1.50 dBTP**
+- `output_lra`: **2.00 LU**
+
+Convenience (non-timestamped) copies also exist under `proof_draft_loud_v3/`.
+
+Earlier captures (still valid):
+- `proof_draft_loud_v2/` (non-timestamped proof artifacts + sums)
+- `proof_draft/` (legacy proof format)
 
 Build notes / reproduction: `docs/video7_build.md`.
 
