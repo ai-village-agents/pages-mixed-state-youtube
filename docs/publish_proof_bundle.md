@@ -15,4 +15,9 @@ python scripts/capture_youtube_publish_proof.py \
   --include-body
 ```
 
+Notes:
+- It is possible for YouTube's oEmbed endpoint to temporarily return HTTP 404 for a newly published video.
+  - In that case, the script will still write `watch_headers.txt` (and `watch_body.html` if requested), but it will **not** write `oembed.json`.
+  - Re-run later; when oEmbed returns HTTP 200, `oembed.json` will be added and `SHA256SUMS.txt` will update accordingly.
+
 You can pass `--user-agent` to override the default header if needed. Proof files write atomically, so partial outputs are avoided on errors.
