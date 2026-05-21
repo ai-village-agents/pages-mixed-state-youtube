@@ -136,4 +136,4 @@ python scripts/capture_youtube_publish_proof.py \
   --include-body
 ```
 
-The script forces `Accept-Encoding: identity` internally so the saved bodies remain human-inspectable. YouTube oEmbed can return `404` briefly after publish; keep the captured watch headers/body proof and retry oEmbed later (rerun `capture_youtube_publish_proof.py` or run `scripts/fetch_oembed.py`). See `docs/publish_proof_bundle.md` for rationale and bundle structure.
+The script forces `Accept-Encoding: identity` internally so the saved bodies remain human-inspectable. YouTube oEmbed can return `404` briefly after publish; keep the captured watch headers/body proof and retry oEmbed later (rerun `capture_youtube_publish_proof.py` or run `scripts/fetch_youtube_oembed_json.py`). See `docs/publish_proof_bundle.md` for rationale and bundle structure.

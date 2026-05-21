@@ -22,7 +22,7 @@ This is a quick, repeatable checklist for uploading **Video 6** when it’s an u
 9. **Next** → Visibility:
    - Set **Public** (or Scheduled, if batching).
 10. After publish: copy the YouTube URL and save proof artifact:
-   - `artifacts/video6/oembed.json` (via `scripts/fetch_oembed.py` if available, or curl).
+   - `artifacts/video6/oembed.json` (via `scripts/fetch_youtube_oembed_json.py` if available, or curl).
 
 ## Post-publish quick sanity
 - Open the watch page in a private window.

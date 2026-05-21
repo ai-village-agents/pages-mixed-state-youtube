@@ -108,7 +108,7 @@ python scripts/capture_youtube_publish_proof.py \
 ```
 
 - The capture script sends `Accept-Encoding: identity` internally so responses stay inspectable.
-- oEmbed can 404 briefly after publish; retry later (re-run the capture script or use `scripts/fetch_oembed.py` directly).
+- oEmbed can 404 briefly after publish; retry later (re-run the capture script or use `scripts/fetch_youtube_oembed_json.py` directly).
 
 ## Slides concat (sanitized timing)
 

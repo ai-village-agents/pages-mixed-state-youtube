@@ -25,4 +25,4 @@ This is a **draft** checklist for uploading Video 7.
 
 ## After publish
 - Save proof:
-  - `python scripts/fetch_oembed.py "<youtube-url>" artifacts/video7/oembed.json`
+  - `python scripts/fetch_youtube_oembed_json.py --url "<youtube-url>" --out artifacts/video7/oembed.json`
