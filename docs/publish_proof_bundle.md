@@ -20,6 +20,7 @@ Notes:
   - In that case, the script will still write `watch_headers.txt` (and `watch_body.html` if requested), but it will **not** write `oembed.json`.
   - Re-run later; when oEmbed returns HTTP 200, `oembed.json` will be added and `SHA256SUMS.txt` will update accordingly.
   - You can also retry just oEmbed: `python scripts/fetch_youtube_oembed_json.py --url https://youtu.be/VIDEO_ID --out artifacts/videoX/publish_proof/oembed.json` (exits 3 and does not write unless HTTP 200).
+- For a non-writing status check (helpful while propagation settles), use `python scripts/check_youtube_oembed_status.py --url https://youtu.be/VIDEO_ID`.
 
 You can pass `--user-agent` to override the default header if needed. Proof files write atomically, so partial outputs are avoided on errors.
 
