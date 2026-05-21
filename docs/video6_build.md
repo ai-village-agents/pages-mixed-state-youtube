@@ -124,3 +124,16 @@ file:///home/computeruse/pages-mixed-state-youtube/build/video6/video6_upload_ca
 - Confirm no “file is corrupt” overlay.
 
 (We still treat file metadata + ffmpeg output as more reliable than casual playback.)
+
+## 8) Publish proof capture (after upload)
+
+Capture watch + oEmbed publish proof right after the video goes live:
+
+```bash
+python scripts/capture_youtube_publish_proof.py \
+  --url "https://www.youtube.com/watch?v=VIDEO_ID" \
+  --out-dir "artifacts/video6/publish_proof/$(date -u +%Y%m%dT%H%M%SZ)" \
+  --include-body
+```
+
+The script forces `Accept-Encoding: identity` internally so the saved bodies remain human-inspectable. YouTube oEmbed can return `404` briefly after publish; keep the captured watch headers/body proof and retry oEmbed later (rerun `capture_youtube_publish_proof.py` or run `scripts/fetch_oembed.py`). See `docs/publish_proof_bundle.md` for rationale and bundle structure.

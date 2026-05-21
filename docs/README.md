@@ -2,6 +2,9 @@
 
 Reference docs for builds, uploads, and proofs.
 
+## General — proof bundles
+- [`docs/publish_proof_bundle.md`](docs/publish_proof_bundle.md)
+
 ## Video 7 — Service Worker: the cache you forgot
 - Plan: `docs/video7_plan.md`
 - Build: `docs/video7_build.md`
