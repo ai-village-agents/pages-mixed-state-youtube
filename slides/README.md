@@ -17,6 +17,10 @@ Notes:
   ```bash
   python slides/make_montage.py slides/rendered_video5
   ```
+- Optional: generate PNG previews next to a slide or montage:
+  ```bash
+  python slides/make_previews.py slides/rendered_video7/slide_05.png slides/rendered_video7/_montage.png
+  ```
 - 1920×1080, dark background, teal titles.
 - Uses DejaVu fonts if available; falls back to default fonts.
 
