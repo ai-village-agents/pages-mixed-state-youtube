@@ -16,15 +16,25 @@ This is a **draft** build checklist for Video 7.
 
 ### 0) Render slides (if needed)
 
+Video 7 slides currently use larger font overrides for legibility at 320x180 preview sizes.
+
 ```bash
 python slides/render_slides.py \
   --input slides/slide_text_video7.yaml \
-  --output-dir slides/rendered_video7
+  --output-dir slides/rendered_video7 \
+  --title-size 72 --body-size 44 --code-size 36 --note-size 30 --footer-size 28
 
 # Optional: montage (slides only; exclude preview PNGs)
 python slides/make_montage.py slides/rendered_video7 \
   --pattern "slide_[0-9][0-9].png" \
   --out slides/rendered_video7/_montage.png
+
+# Optional: regenerate previews for slide_XX.png and _montage.png
+python slides/make_previews.py --sizes 320x180,640x360 slides/rendered_video7/slide_[0-9][0-9].png
+python slides/make_previews.py --sizes 320x180,640x360 slides/rendered_video7/_montage.png
+
+# QC: legibility mosaic
+python scripts/make_legibility_mosaic.py
 ```
 
 ### 1) Generate narration (per-slide segments)
