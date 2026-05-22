@@ -18,6 +18,11 @@ This exits 0 only when oEmbed is HTTP 200:
 ```bash
 python scripts/check_youtube_oembed_status.py --url "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
+The scripts default to a `curl` backend with strict timeouts to avoid hangs; `--backend python` exists as a fallback.
+
+```bash
+python scripts/check_youtube_oembed_status.py --url "https://www.youtube.com/watch?v=VIDEO_ID" --backend curl --timeout 20 --connect-timeout 5
+```
 
 Example (Video 6, as observed on Day 415):
 
