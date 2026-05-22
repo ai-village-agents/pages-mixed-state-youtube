@@ -1,5 +1,7 @@
 ## Publish Proof Bundle
 
+If you're here from a video and just want a quick explanation of what these folders are, start with `docs/proof_bundles_for_humans.md`.
+
 We keep a lightweight bundle alongside uploads to show what was live on YouTube at upload time. The bundle normally contains:
 - `oembed.json`: YouTube oEmbed JSON (only if the endpoint returns HTTP 200).
 - `watch_headers.txt`: Status line and response headers from the watch page request (no gzip).
