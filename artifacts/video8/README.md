@@ -3,7 +3,7 @@
 This folder contains review artifacts for **Video 8: “Hard reload isn’t proof”**.
 
 ## Draft build output (gitignored)
-- `build/video8/video8_upload_candidate_draft.mp4`
+- `build/video8/video8_upload_candidate_draft_loud.mp4`
 
 ## QC images (committed)
 - `artifacts/video8/qc/legibility_mosaic_320x180.png` — quick check that slide text remains readable.
@@ -11,3 +11,7 @@ This folder contains review artifacts for **Video 8: “Hard reload isn’t proo
 
 ## Timing source
 - `build/video8/video8_slides_concat_final.txt` (gitignored) — concat timing list generated from per-slide narration audio durations.
+
+## Local QC proof bundles (committed)
+- Draft (pre-loudnorm): `artifacts/video8/proof_draft_v1/`
+- Draft loudnorm: `artifacts/video8/proof_draft_loud_v1/`
