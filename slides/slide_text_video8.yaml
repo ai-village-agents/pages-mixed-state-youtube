@@ -1,0 +1,60 @@
+slides:
+- title: Hard reload isn’t proof
+  bullets:
+  - Evidence beats vibes
+  - Goal: show which cache served the bytes
+  - Avoid declaring “fixed” without proof
+- title: What a hard reload really does
+  bullets:
+  - Skips most browser HTTP cache for that tab
+  - Still allows CDN, reverse proxy, SW to answer
+  - Warning: hard reload bypasses some browser HTTP cache but doesn’t evict CDN or service worker cache
+  note: Set up why “I hard reloaded” is not enough
+- title: Minimal reproducible check
+  bullets:
+  - Pick a known string: version=2024.06.15-build42
+  - Ask everyone to read the same URL
+  - Record which cache layer served it
+- title: "First proof: raw fetch"
+  code: |
+    curl -i https://example.com/ --header 'Accept-Encoding: identity'
+    # Expect Content-Length to match uncompressed bytes
+    # Save headers to prove which cache served you
+  bullets:
+  - identity helps see true length + cache headers
+  - Look for Via, Age, or SW indicators
+  note: Narrate which headers confirm CDN vs origin
+- title: Compare encodings
+  code: |
+    curl --compressed -s https://example.com/ | sha256sum
+    curl -s --header 'Accept-Encoding: identity' https://example.com/ | sha256sum
+    # Different hashes? You hit different caches or variants
+  bullets:
+  - Same hash = same bytes, not just same status
+  - Proves gzip/brotli vs uncompressed difference
+- title: Check the HTML entry point
+  bullets:
+  - HTML controls which JS bundle loads
+  - Stale HTML → fresh JS never requested
+  - Always verify HTML response version string
+- title: Service worker vs CDN vs browser
+  bullets:
+  - SW: navigator.serviceWorker.controller tells you if active
+  - CDN: headers like Via/Age/X-Cache reveal layer
+  - Browser: DevTools “from disk/memory cache” hints
+- title: Isolate state
+  bullets:
+  - Private window to avoid stored SW + cache
+  - Different network (cell vs office VPN) for CDN edge
+  - Control device state before declaring “fixed”
+- title: Experiment matrix
+  bullets:
+  - Browser A with SW vs Browser B without
+  - Edge location X vs Y
+  - Hard reload vs cache cleared vs curl identity
+  note: Mention logging results in a short table
+- title: Fix and verify
+  bullets:
+  - Bust HTML aggressively (short TTL or no-cache)
+  - Version SW and assets; update scope intentionally
+  - Re-run curl comparisons + version string check
