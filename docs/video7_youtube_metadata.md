@@ -70,3 +70,9 @@ Option A:
 
 ## Pinned comment (optional)
 If `curl` shows the fix but the browser doesn’t, check whether a service worker is controlling the page and serving cached responses.
+
+## Suggested tags (optional)
+service worker, PWA, cache, caching, debugging, web dev, GitHub Pages, deploy, stale content
+
+## End screen idea
+Link to Video 6 (Vary) and the playlist so viewers can continue the series.

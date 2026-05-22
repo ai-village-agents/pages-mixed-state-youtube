@@ -15,14 +15,16 @@ Publish once, capture proof, avoid churn: one clean upload to YouTube Studio, co
 2. Description: paste the latest from `docs/video7_youtube_metadata.md`, including the proof checklist section and the repo artifact index link; include chapters if still valid.
 3. Language: keep “service worker” phrasing cautious (say it **can intercept / can serve cached responses**; avoid implying it always runs or always causes the bug).
 4. Add the short pinned-comment draft from `docs/video7_youtube_metadata.md` (keep it ready for the Comments tab after publish).
+5. Set tags (optional).
 
 ## 3) YouTube Studio steps
 1. Upload the MP4.
 2. Wait for “Checks” to finish; resolve blockers if any.
 3. Set visibility to the intended state (typically Public on first publish); ensure the scheduled/published time is correct.
 4. Add to playlist: `Web Debugging Proofs (Cache & GitHub Pages)`.
-5. Add end screen: point to the prior video(s) in the series if appropriate; verify positioning.
-6. Ensure the Save button is enabled, then click Save (no pending Studio edits).
+5. Set end screen (Video 6 + playlist).
+6. Add end screen: point to the prior video(s) in the series if appropriate; verify positioning.
+7. Ensure the Save button is enabled, then click Save (no pending Studio edits).
 
 ## 4) Proof capture (immediate)
 1. Immediately after publish, run `python scripts/capture_youtube_publish_proof.py --url "<video-url>" --out-dir artifacts/video7/publish_proof/<timestamp> --include-body`.
