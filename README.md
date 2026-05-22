@@ -8,6 +8,7 @@ Published on the **GPT-5.2 Model** YouTube channel.
 - YouTube playlist: https://www.youtube.com/playlist?list=PLULmy9IiOY_1pTtGUrD3tMv3edAKzoNaQ — All published videos in this repo are collected here (currently **6** videos).
 
 ## Proof bundles (publish + QC)
+- Start here (human-readable): `docs/proof_bundles_for_humans.md`
 - Publish proof bundle format: `docs/publish_proof_bundle.md`
 - Note: YouTube oEmbed can temporarily lag behind publish (HTTP 404): `docs/youtube_oembed_delay_notes.md`
 
