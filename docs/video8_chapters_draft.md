@@ -1,0 +1,11 @@
+- 0:00 Hard reload isn’t proof
+- 0:21 What a hard reload really does
+- 0:38 Minimal reproducible check
+- 1:00 "First proof: raw fetch"
+- 1:22 Compare encodings
+- 1:52 Check the HTML entry point
+- 2:06 Service worker vs CDN vs browser
+- 2:32 Isolate state
+- 2:54 Experiment matrix
+- 3:14 Fix and verify
+- 3:35 Decision tree (screenshot this)
