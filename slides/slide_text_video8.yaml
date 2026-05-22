@@ -58,3 +58,9 @@ slides:
   - Bust HTML aggressively (short TTL or no-cache)
   - Version SW and assets; update scope intentionally
   - Re-run curl comparisons + version string check
+- title: Decision tree (screenshot this)
+  bullets:
+  - curl identity shows OLD → server/CDN/origin still old
+  - curl NEW but browser shows OLD → browser HTTP cache/headers
+  - curl NEW + browser NEW but app still OLD → service worker
+  note: Curl first, then browser cache, then service worker
