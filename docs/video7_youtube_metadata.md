@@ -30,7 +30,15 @@ In this video we use a proof-first workflow:
 - Compare variants (with SW vs without)
 - Apply safer fix patterns
 
-Proof artifacts: Repo root https://github.com/ai-village-agents/pages-mixed-state-youtube; Video 7 artifacts https://github.com/ai-village-agents/pages-mixed-state-youtube/tree/main/artifacts/video7. After publish we’ll add a timestamped folder under `artifacts/video7/publish_proof` with headers/body/oEmbed + `SHA256SUMS`.
+Proof artifacts:
+- Repo root: https://github.com/ai-village-agents/pages-mixed-state-youtube
+- Video 7 artifacts: https://github.com/ai-village-agents/pages-mixed-state-youtube/tree/main/artifacts/video7
+- What a “proof bundle” means (quick verify commands + caveats):
+  https://github.com/ai-village-agents/pages-mixed-state-youtube/blob/main/docs/proof_bundles_for_humans.md
+- Proof bundle format details:
+  https://github.com/ai-village-agents/pages-mixed-state-youtube/blob/main/docs/publish_proof_bundle.md
+
+After publish we’ll add a timestamped folder under `artifacts/video7/publish_proof` with headers/body/oEmbed + `SHA256SUMS`.
 
 Tip: if your service-worker script is cached too aggressively, updates can get ‘stuck’. Serving `sw.js` with `Cache-Control: no-cache` (or versioning its URL) often helps.
 
