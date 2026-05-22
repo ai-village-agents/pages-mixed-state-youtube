@@ -144,8 +144,10 @@ Then merge `/tmp/video7_slides.mp4` with your narration audio as usual.
 To create commit-friendly proof artifacts for a built MP4 without committing the MP4 itself:
 
 ```bash
-python scripts/capture_media_proof.py \
-  --input build/video7/video7_upload_candidate_draft_loud.mp4 \
-  --out-dir artifacts/video7/proof_draft_loud_v3
+python scripts/capture_local_qc_proof.py \
+  --in build/video7/video7_upload_candidate_draft_loud.mp4 \
+  --out-dir artifacts/video7/proof_draft_loud_v4/<timestamp>/
 ```
-This writes `ffmpeg -i` output, loudnorm analysis JSON, and `SHA256SUMS.txt` (including the local MP4 hash) to `artifacts/video7/proof_draft_loud_v3/`.
+This writes `ffmpeg -i` output, loudnorm analysis JSON, and `SHA256SUMS.txt` (including the local MP4 hash) to the chosen folder.
+
+Example (latest bundle as of 2026-05-22): `artifacts/video7/proof_draft_loud_v4/20260522T172533Z/`.

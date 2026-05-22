@@ -29,7 +29,7 @@ Publish once, capture proof, avoid churn: one clean upload to YouTube Studio, co
 2. Script already uses `Accept-Encoding: identity` internally to avoid gzip/range artifacts.
 3. Note: oEmbed may return 404 temporarily; retry later until it succeeds.
 4. Store all outputs (HTML/JSON/screens, SHA256SUMS) under `artifacts/video7/publish_proof/` with timestamped subfolders.
-5. Pre-publish proof for this render lives at `artifacts/video7/proof_draft_loud_v3/`.
+5. Pre-publish QC proof bundle for the latest draft lives at `artifacts/video7/proof_draft_loud_v4/20260522T172533Z/` (update this pointer if you re-render).
 
 ## 5) Post-publish QA
 1. Open the watch page in a private window to avoid stale service-worker/browser state.
