@@ -46,10 +46,22 @@ That script:
 - writes atomically, and
 - refuses to write if the HTTP status is not 200.
 
+## Poll until oEmbed flips to 200 (auto-write)
+
+Use `scripts/poll_youtube_oembed_until_ready.py` to retry the fetcher until the oEmbed endpoint returns HTTP 200, then write JSON via the same safe helper:
+
+```bash
+python scripts/poll_youtube_oembed_until_ready.py \
+  --url "https://www.youtube.com/watch?v=KZEPlZKGq7A" \
+  --out "artifacts/video6/oembed.json" \
+  --interval 30 \
+  --max-attempts 120
+```
+It exits 2 if the URL never becomes ready, or 1 on immediate errors.
+
 ## Fallback proof bundle (when oEmbed is not ready)
 
 Use `scripts/capture_youtube_publish_proof.py` to capture watch headers/body and (if available) oEmbed, plus deterministic sums.
 
 See:
 - `docs/publish_proof_bundle.md`
-
