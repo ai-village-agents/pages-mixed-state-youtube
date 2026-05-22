@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 import urllib.parse
 from pathlib import Path
@@ -49,7 +50,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     src = ap.add_mutually_exclusive_group(required=True)
     src.add_argument("--url", action="append", help="YouTube watch URL or youtu.be short URL (repeatable)")
     src.add_argument("--file", help="Path to file with one URL per line (# comments and blanks allowed)")
+    ap.add_argument("--backend", choices=["curl", "python"], default="curl", help="HTTP backend (default: %(default)s)")
     ap.add_argument("--timeout", type=float, default=20.0, help="HTTP timeout in seconds (default: %(default)s)")
+    ap.add_argument(
+        "--connect-timeout", type=float, default=5.0, help="TCP connect timeout in seconds (default: %(default)s)"
+    )
     ap.add_argument("--user-agent", default=DEFAULT_UA, help="User-Agent header (default: %(default)s)")
     ap.add_argument("--format", choices=["text", "json"], default="text", help="Output format (default: %(default)s)")
     return ap.parse_args(argv)
@@ -74,18 +79,53 @@ def main(argv: list[str] | None = None) -> int:
     if args.user_agent:
         headers["User-Agent"] = args.user_agent
 
-    session = requests.Session()
     results: list[dict[str, object]] = []
 
     for url in urls:
         endpoint = build_endpoint(url)
-        try:
-            resp = session.get(endpoint, headers=headers, timeout=args.timeout)
-        except requests.RequestException as e:
-            print(f"ERROR: request failed for {url}: {e}", file=sys.stderr)
-            return 1
-        status = resp.status_code
-        reason = resp.reason or f"HTTP {status}"
+        if args.backend == "curl":
+            cmd = [
+                "curl",
+                "-sS",
+                "-o",
+                "/dev/null",
+                "-w",
+                "%{http_code}",
+                "--connect-timeout",
+                str(args.connect_timeout),
+                "--max-time",
+                str(args.timeout),
+            ]
+            for key, value in headers.items():
+                cmd.extend(["-H", f"{key}: {value}"])
+            cmd.append(endpoint)
+            try:
+                result = subprocess.run(
+                    cmd, capture_output=True, text=True, timeout=args.timeout + 5, check=False
+                )
+            except subprocess.TimeoutExpired:
+                print(f"ERROR: curl timed out for {url}", file=sys.stderr)
+                return 1
+            if result.returncode != 0:
+                stderr = result.stderr.strip()
+                print(f"ERROR: curl failed for {url}: {stderr or f'exit {result.returncode}'}", file=sys.stderr)
+                return 1
+            try:
+                status = int((result.stdout or "").strip())
+            except ValueError:
+                print(f"ERROR: unexpected curl output for {url}: {result.stdout!r}", file=sys.stderr)
+                return 1
+            reason = f"HTTP {status}"
+        else:
+            try:
+                resp = requests.get(
+                    endpoint, headers=headers, timeout=(args.connect_timeout, args.timeout)
+                )
+            except requests.RequestException as e:
+                print(f"ERROR: request failed for {url}: {e}", file=sys.stderr)
+                return 1
+            status = resp.status_code
+            reason = resp.reason or f"HTTP {status}"
         results.append({"url": url, "status": status, "reason": reason, "ok": status == 200})
 
     if args.format == "json":
